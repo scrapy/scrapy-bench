@@ -65,7 +65,7 @@ The html files present in `sites.tar.gz` files were downloaded using a `scrapy s
 * Do the following to complete the installation:
     
       git clone https://github.com/Parth-Vader/Scrapy-BenchCLI.git  
-      cd Scrapy-BenchCLI/  
+      cd scrapy-bench/  
       virtualenv env  
       . env/bin/activate   
       pip install --editable .
