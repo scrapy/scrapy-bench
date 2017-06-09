@@ -7,7 +7,7 @@ import click
 import statistics
 
 
-def calculator(test, arg, n_runs, only_result,workpath=os.getcwd()):
+def calculator(test, arg, n_runs, only_result, workpath=os.getcwd()):
     w = []
     for x in range(n_runs):
         if only_result:
@@ -21,7 +21,7 @@ def calculator(test, arg, n_runs, only_result,workpath=os.getcwd()):
         else:
             process = subprocess.Popen(arg, cwd=workpath, shell=True)
             process.wait()
-        with open(os.path.join(workpath,"Benchmark.txt")) as f:
+        with open(os.path.join(workpath, "Benchmark.txt")) as f:
             for line in f.readlines():
                 w.append(float(line))
 
@@ -37,7 +37,7 @@ def calculator(test, arg, n_runs, only_result,workpath=os.getcwd()):
             statistics.median(w),
             statistics.pstdev(w)),
         bold=True)
-    os.remove(os.path.join(workpath,"Benchmark.txt"))
+    os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 
 @click.group()
@@ -54,10 +54,10 @@ def cli():
 @click.option('--only_result', is_flag=True, help="Display the results only.")
 def bookworm(n_runs, only_result):
     """Spider to scrape locally hosted site"""
-    workpath = os.path.join(os.getcwd(),"books")
+    workpath = os.path.join(os.getcwd(), "books")
     arg = "scrapy crawl followall -o items.csv"
-    calculator("Book Spider", arg, n_runs, only_result,workpath)
-    os.remove(os.path.join(workpath,"items.csv"))
+    calculator("Book Spider", arg, n_runs, only_result, workpath)
+    os.remove(os.path.join(workpath, "items.csv"))
 
 
 @cli.command()
@@ -70,3 +70,15 @@ def linkextractor(n_runs, only_result):
     """Micro-benchmark for LinkExtractor()"""
     arg = "python link.py"
     calculator("LinkExtractor", arg, n_runs, only_result)
+
+
+@cli.command()
+@click.option(
+    '--n-runs',
+    default=1,
+    help="Take multiple readings for the benchmark")
+@click.option('--only_result', is_flag=True, help="Display the results only.")
+def xpathbench(n_runs, only_result):
+    """Micro-benchmark for extraction using xpath"""
+    arg = "python xpathbench.py"
+    calculator("Xpath Benchmark", arg, n_runs, only_result)

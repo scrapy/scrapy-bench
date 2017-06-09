@@ -15,6 +15,7 @@
 * Has a `--n-runs` option for perfoming more than one iteration of spider to improve the precision.
 * Has a `--only_results` option for viewing the results only.
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
+* A micro benchmark that tests extraction using xpath from a collection of html pages.
 
 ## Installation
 
@@ -60,7 +61,9 @@
 My Nginx config file is shared [here](https://github.com/Parth-Vader/Scrapy-BenchCLI/blob/master/nginx.conf).
  Source : [How to install nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04).
 
-The html files present in `sites.tar.gz` files were downloaded using a `scrapy spider` from the top sites from `Alexa top sites` list.
+The html files present in `sites.tar.gz` file were downloaded using a `scrapy spider` from the top sites from `Alexa top sites` list.
+
+The html files present in `bookfiles.tar.gz` were downloaded using a `scrapy spider` from the website [Books to Scrape](http://books.toscrape.com/index.html).
 
 * Do the following to complete the installation:
     
@@ -70,6 +73,7 @@ The html files present in `sites.tar.gz` files were downloaded using a `scrapy s
       . env/bin/activate   
       pip install --editable .
       tar -xvzf sites.tar.gz
+      tar -xvzf bookfiles.tar.gz
     
 ## Usage
   
@@ -83,3 +87,5 @@ The html files present in `sites.tar.gz` files were downloaded using a `scrapy s
 	Commands:
 	  bookworm       Spider to scrape locally hosted site
 	  linkextractor  Micro-benchmark for LinkExtractor()
+	  xpathbench     Micro-benchmark for extraction using xpath
+
