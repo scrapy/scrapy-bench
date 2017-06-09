@@ -65,7 +65,7 @@ There are 130 html files present in `sites.tar.gz`, which were downloaded using 
 
 There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using `download.py` from the website [Books to Scrape](http://books.toscrape.com/index.html).
 
-The spider `downloader.py`, dumps the response body as unicode to the files. The list of top sites was taken from [here](s3.amazonaws.com/alexa-static/top-1m.csv.zip).
+The spider `download.py`, dumps the response body as unicode to the files. The list of top sites was taken from [here](s3.amazonaws.com/alexa-static/top-1m.csv.zip).
 
 * Do the following to complete the installation:
     
