@@ -3,35 +3,41 @@
 import glob
 from timeit import default_timer as timer
 import io
+import tarfile
 
 import click
 from scrapy.linkextractors import LinkExtractor
-from scrapy.http import HtmlResponse, TextResponse, Response
+from scrapy.http import HtmlResponse, TextResponse
 from six.moves.urllib.parse import urlparse
 
 
 def main():
-    start = timer()
-
     url = 'http://scrapinghub.com/'
     link_extractor = LinkExtractor()
     total = 0
-    for files in glob.glob('sites/*'):
-
-        f = (io.open(files, "r", encoding="utf-8"))
+    time = 0
+    tar = tarfile.open("sites.tar.gz")
+    for member in tar.getmembers():
+        f = tar.extractfile(member)
         html = f.read()
 
-        r3 = HtmlResponse(url=url, body=html, encoding='utf8')
-        links = link_extractor.extract_links(r3)
+        start = timer()
+
+        response = HtmlResponse(url=url, body=html, encoding='utf8')
+        links = link_extractor.extract_links(response)
+
+        end = timer()
+
         total = total + len(links)
-    end = timer()
+        time = time + end - start
+
     print("\nTotal number of links extracted = {0}".format(total))
-    print("Time taken = {0}".format(end - start))
+    print("Time taken = {0}".format(time))
     click.secho("Rate of link extraction : {0} links/second\n".format(
-        float(total / (end - start))), bold=True)
+        float(total / time)), bold=True)
 
     with open("Benchmark.txt", 'w') as g:
-        g.write(" {0}".format((float(total / (end - start)))))
+        g.write(" {0}".format((float(total / time))))
 
 
 if __name__ == "__main__":

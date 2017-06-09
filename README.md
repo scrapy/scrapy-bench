@@ -63,7 +63,7 @@ My Nginx config file is shared [here](https://github.com/Parth-Vader/Scrapy-Benc
 
 The html files present in `sites.tar.gz` file were downloaded using a `scrapy spider` from the top sites from `Alexa top sites` list.
 
-The html files present in `bookfiles.tar.gz` were downloaded using a `scrapy spider` from the website [Books to Scrape](http://books.toscrape.com/index.html).
+There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using a `scrapy spider` from the website [Books to Scrape](http://books.toscrape.com/index.html).
 
 * Do the following to complete the installation:
     
@@ -72,9 +72,7 @@ The html files present in `bookfiles.tar.gz` were downloaded using a `scrapy spi
       virtualenv env  
       . env/bin/activate   
       pip install --editable .
-      tar -xvzf sites.tar.gz
-      tar -xvzf bookfiles.tar.gz
-    
+          
 ## Usage
   
 	Usage: scrapy-bench [OPTIONS] COMMAND [ARGS]...
