@@ -61,9 +61,11 @@
 My Nginx config file is shared [here](https://github.com/Parth-Vader/Scrapy-BenchCLI/blob/master/nginx.conf).
  Source : [How to install nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04).
 
-The html files present in `sites.tar.gz` file were downloaded using a `scrapy spider` from the top sites from `Alexa top sites` list.
+There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
 
-There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using a `scrapy spider` from the website [Books to Scrape](http://books.toscrape.com/index.html).
+There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using `download.py` from the website [Books to Scrape](http://books.toscrape.com/index.html).
+
+The spider `downloader.py`, dumps the response body as unicode to the files. The list of top sites was taken from [here](s3.amazonaws.com/alexa-static/top-1m.csv.zip).
 
 * Do the following to complete the installation:
     
