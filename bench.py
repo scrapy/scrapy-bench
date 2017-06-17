@@ -1,15 +1,14 @@
 import subprocess
 import os
-import sys
-import urllib
-import urllib2
 
 import click
 import statistics
 
 import codespeedinfo
 
-CODESPEED_URL = 'http://localhost:8000/'
+run = 1
+result = False
+upload = False
 
 
 def calculator(
@@ -17,7 +16,7 @@ def calculator(
         arg,
         n_runs,
         only_result,
-        web=False,
+        uploadresult=False,
         workpath=os.getcwd()):
     w = []
     for x in range(n_runs):
@@ -49,86 +48,45 @@ def calculator(
             statistics.pstdev(w)),
         bold=True)
 
-    if web is True:
-        commit = codespeedinfo.get_latest_commit('Parth-Vader', 'scrapy-bench')
-
-        data = {
-            'commitid': commit['html_url'].rsplit('/', 1)[-1],
-            'branch': 'default',  # Always use default for trunk/master/tip
-            'project': 'Scrapy-Bench',
-            'executable': 'bench.py',
-            'benchmark': test,
-            'environment': codespeedinfo.get_env(),
-            'result_value': statistics.mean(w),
-        }
-
-        data.update({
-            'revision_date': codespeedinfo.current_date,  # Optional. Default is taken either
-            # from VCS integration or from current date
-            'result_date': codespeedinfo.current_date,  # Optional, default is current date
-            'std_dev': statistics.pstdev(w),  # Optional. Default is blank
-            #'max': 4001.6,  # Optional. Default is blank
-            #'min': 3995.1,  # Optional. Default is blank
-        })
-        params = urllib.urlencode(data)
-        response = "None"
-        print("Saving result for executable %s, revision %s, benchmark %s" % (
-            data['executable'], data['commitid'], data['benchmark']))
-        try:
-            f = urllib2.urlopen(CODESPEED_URL + 'result/add/', params)
-        except urllib2.HTTPError as e:
-            print(str(e))
-            print(e.read())
-            return
-        response = f.read()
-        f.close()
-        print("Server (%s) response: %s\n" % (CODESPEED_URL, response))
+    if uploadresult is True:
+        codespeedinfo.uploadresult(test, w)
 
     os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 
 @click.group()
-def cli():
-    """A benchmark suite for Scrapy."""
-    pass
-
-
-@cli.command()
 @click.option(
     '--n-runs',
     default=1,
     help="Take multiple readings for the benchmark.")
 @click.option('--only_result', is_flag=True, help="Display the results only.")
 @click.option('--uploadresult', is_flag=True, help="Upload the results")
-def bookworm(n_runs, only_result, uploadresult):
+def cli(n_runs, only_result, uploadresult):
+    """A benchmark suite for Scrapy."""
+    global run, result, upload
+    run = n_runs
+    result = only_result
+    upload = uploadresult
+
+
+@cli.command()
+def bookworm():
     """Spider to scrape locally hosted site"""
     workpath = os.path.join(os.getcwd(), "books")
     arg = "scrapy crawl followall -o items.csv"
-    calculator("Book Spider", arg, n_runs, only_result, uploadresult, workpath)
+    calculator("Book Spider", arg, run, result, upload, workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
 
 @cli.command()
-@click.option(
-    '--n-runs',
-    default=1,
-    help="Take multiple readings for the benchmark")
-@click.option('--only_result', is_flag=True, help="Display the results only.")
-@click.option('--uploadresult', is_flag=True, help="Upload the results")
-def linkextractor(n_runs, only_result, uploadresult):
+def linkextractor():
     """Micro-benchmark for LinkExtractor()"""
     arg = "python link.py"
-    calculator("LinkExtractor", arg, n_runs, only_result, uploadresult)
+    calculator("LinkExtractor", arg, run, result, upload)
 
 
 @cli.command()
-@click.option(
-    '--n-runs',
-    default=1,
-    help="Take multiple readings for the benchmark")
-@click.option('--only_result', is_flag=True, help="Display the results only.")
-@click.option('--uploadresult', is_flag=True, help="Upload the results")
-def xpathbench(n_runs, only_result, uploadresult):
+def xpathbench():
     """Micro-benchmark for extraction using xpath"""
     arg = "python xpathbench.py"
-    calculator("Xpath Benchmark", arg, n_runs, only_result, uploadresult)
+    calculator("Xpath Benchmark", arg, run, result, upload)
