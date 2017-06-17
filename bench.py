@@ -1,37 +1,15 @@
 import subprocess
 import os
 import sys
-import time
-import psutil
-import json
 import urllib
 import urllib2
-from datetime import datetime
 
 import click
 import statistics
-import scrapy
 
+import codespeedinfo
 
 CODESPEED_URL = 'http://localhost:8000/'
-
-current_date = datetime.today()
-
-
-def get_latest_commit(owner, repo):
-    url = 'https://api.github.com/repos/{owner}/{repo}/commits?per_page=1'.format(
-        owner=owner, repo=repo)
-    response = urllib2.urlopen(url).read()
-    data = json.loads(response.decode())
-    return data[0]
-
-
-def get_env():
-    pyversion = sys.version.rsplit(" ")[0]
-    scrapyversion = float(''.join(str(e)
-                                  for e in list(scrapy.version_info))) / 100
-
-    return "Python " + str(pyversion) + " Scrapy " + str(scrapyversion)
 
 
 def calculator(
@@ -72,7 +50,7 @@ def calculator(
         bold=True)
 
     if web is True:
-        commit = get_latest_commit('Parth-Vader', 'scrapy-bench')
+        commit = codespeedinfo.get_latest_commit('Parth-Vader', 'scrapy-bench')
 
         data = {
             'commitid': commit['html_url'].rsplit('/', 1)[-1],
@@ -80,31 +58,31 @@ def calculator(
             'project': 'Scrapy-Bench',
             'executable': 'bench.py',
             'benchmark': test,
-            'environment': get_env(),
+            'environment': codespeedinfo.get_env(),
             'result_value': statistics.mean(w),
         }
 
         data.update({
-            'revision_date': current_date,  # Optional. Default is taken either
+            'revision_date': codespeedinfo.current_date,  # Optional. Default is taken either
             # from VCS integration or from current date
-            'result_date': current_date,  # Optional, default is current date
+            'result_date': codespeedinfo.current_date,  # Optional, default is current date
             'std_dev': statistics.pstdev(w),  # Optional. Default is blank
             #'max': 4001.6,  # Optional. Default is blank
             #'min': 3995.1,  # Optional. Default is blank
         })
         params = urllib.urlencode(data)
         response = "None"
-        print "Saving result for executable %s, revision %s, benchmark %s" % (
-            data['executable'], data['commitid'], data['benchmark'])
+        print("Saving result for executable %s, revision %s, benchmark %s" % (
+            data['executable'], data['commitid'], data['benchmark']))
         try:
             f = urllib2.urlopen(CODESPEED_URL + 'result/add/', params)
         except urllib2.HTTPError as e:
-            print str(e)
-            print e.read()
+            print(str(e))
+            print(e.read())
             return
         response = f.read()
         f.close()
-        print "Server (%s) response: %s\n" % (CODESPEED_URL, response)
+        print("Server (%s) response: %s\n" % (CODESPEED_URL, response))
 
     os.remove(os.path.join(workpath, "Benchmark.txt"))
 
