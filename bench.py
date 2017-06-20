@@ -8,10 +8,10 @@ import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, uploadresult):
+    def __init__(self, n_runs, only_result, upload_result):
         self.n_runs = n_runs
         self.only_result = only_result
-        self.uploadresult = uploadresult
+        self.upload_result = upload_result
 
 
 def calculator(
@@ -19,7 +19,7 @@ def calculator(
         arg,
         n_runs,
         only_result,
-        uploadresult=False,
+        upload_result=False,
         workpath=os.getcwd()):
     w = []
     for x in range(n_runs):
@@ -51,7 +51,7 @@ def calculator(
             statistics.pstdev(w)),
         bold=True)
 
-    if uploadresult:
+    if upload_result:
         codespeedinfo.uploadresult(test, w)
 
     os.remove(os.path.join(workpath, "Benchmark.txt"))
@@ -63,11 +63,14 @@ def calculator(
     default=1,
     help="Take multiple readings for the benchmark.")
 @click.option('--only_result', is_flag=True, help="Display the results only.")
-@click.option('--uploadresult', is_flag=True, help="Upload the results")
+@click.option(
+    '--upload_result',
+    is_flag=True,
+    help="Upload the results to local codespeed")
 @click.pass_context
-def cli(ctx, n_runs, only_result, uploadresult):
+def cli(ctx, n_runs, only_result, upload_result):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, uploadresult)
+    ctx.obj = commandoption(n_runs, only_result, upload_result)
 
 
 @cli.command()
@@ -81,7 +84,7 @@ def bookworm(obj):
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.uploadresult,
+        obj.upload_result,
         workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
@@ -96,7 +99,7 @@ def linkextractor(obj):
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.uploadresult)
+        obj.upload_result)
 
 
 @cli.command()
@@ -104,10 +107,9 @@ def linkextractor(obj):
 def xpathbench(obj):
     """Micro-benchmark for extraction using xpath"""
     arg = "python xpathbench.py"
-    # print obj.n_runs
     calculator(
         "Xpath Benchmark",
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.uploadresult)
+        obj.upload_result)

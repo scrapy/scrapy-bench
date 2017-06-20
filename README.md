@@ -84,7 +84,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	Options:
 	  --n-runs INTEGER  Take multiple readings for the benchmark.
 	  --only_result     Display the results only.
-	  --uploadresult    Upload the results
+	  --upload_result    Upload the results to local codespeed
 	  --help            Show this message and exit.
 
 	Commands:
