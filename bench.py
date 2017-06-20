@@ -1,13 +1,26 @@
 import subprocess
 import os
-import sys
-import time
 
 import click
 import statistics
 
+import codespeedinfo
 
-def calculator(test, arg, n_runs, only_result, workpath=os.getcwd()):
+
+class commandoption(object):
+    def __init__(self, n_runs, only_result, upload_result):
+        self.n_runs = n_runs
+        self.only_result = only_result
+        self.upload_result = upload_result
+
+
+def calculator(
+        test,
+        arg,
+        n_runs,
+        only_result,
+        upload_result=False,
+        workpath=os.getcwd()):
     w = []
     for x in range(n_runs):
         if only_result:
@@ -37,48 +50,66 @@ def calculator(test, arg, n_runs, only_result, workpath=os.getcwd()):
             statistics.median(w),
             statistics.pstdev(w)),
         bold=True)
+
+    if upload_result:
+        codespeedinfo.uploadresult(test, w)
+
     os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 
 @click.group()
-def cli():
-    """A benchmark suite for Scrapy."""
-    pass
-
-
-@cli.command()
 @click.option(
     '--n-runs',
     default=1,
     help="Take multiple readings for the benchmark.")
 @click.option('--only_result', is_flag=True, help="Display the results only.")
-def bookworm(n_runs, only_result):
+@click.option(
+    '--upload_result',
+    is_flag=True,
+    help="Upload the results to local codespeed")
+@click.pass_context
+def cli(ctx, n_runs, only_result, upload_result):
+    """A benchmark suite for Scrapy."""
+    ctx.obj = commandoption(n_runs, only_result, upload_result)
+
+
+@cli.command()
+@click.pass_obj
+def bookworm(obj):
     """Spider to scrape locally hosted site"""
     workpath = os.path.join(os.getcwd(), "books")
     arg = "scrapy crawl followall -o items.csv"
-    calculator("Book Spider", arg, n_runs, only_result, workpath)
+    calculator(
+        "Book Spider",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
 
 @cli.command()
-@click.option(
-    '--n-runs',
-    default=1,
-    help="Take multiple readings for the benchmark")
-@click.option('--only_result', is_flag=True, help="Display the results only.")
-def linkextractor(n_runs, only_result):
+@click.pass_obj
+def linkextractor(obj):
     """Micro-benchmark for LinkExtractor()"""
     arg = "python link.py"
-    calculator("LinkExtractor", arg, n_runs, only_result)
+    calculator(
+        "LinkExtractor",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result)
 
 
 @cli.command()
-@click.option(
-    '--n-runs',
-    default=1,
-    help="Take multiple readings for the benchmark")
-@click.option('--only_result', is_flag=True, help="Display the results only.")
-def xpathbench(n_runs, only_result):
+@click.pass_obj
+def xpathbench(obj):
     """Micro-benchmark for extraction using xpath"""
     arg = "python xpathbench.py"
-    calculator("Xpath Benchmark", arg, n_runs, only_result)
+    calculator(
+        "Xpath Benchmark",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result)
