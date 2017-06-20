@@ -82,10 +82,14 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  A benchmark suite for Scrapy.
 
 	Options:
-	  --help  Show this message and exit.
+	  --n-runs INTEGER  Take multiple readings for the benchmark.
+	  --only_result     Display the results only.
+	  --uploadresult    Upload the results
+	  --help            Show this message and exit.
 
 	Commands:
 	  bookworm       Spider to scrape locally hosted site
 	  linkextractor  Micro-benchmark for LinkExtractor()
 	  xpathbench     Micro-benchmark for extraction using xpath
+
 
