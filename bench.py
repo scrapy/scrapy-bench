@@ -6,9 +6,12 @@ import statistics
 
 import codespeedinfo
 
-run = 1
-result = False
-upload = False
+
+class commandoption(object):
+    def __init__(self, n_runs, only_result, uploadresult):
+        self.n_runs = n_runs
+        self.only_result = only_result
+        self.uploadresult = uploadresult
 
 
 def calculator(
@@ -48,7 +51,7 @@ def calculator(
             statistics.pstdev(w)),
         bold=True)
 
-    if uploadresult is True:
+    if uploadresult:
         codespeedinfo.uploadresult(test, w)
 
     os.remove(os.path.join(workpath, "Benchmark.txt"))
@@ -61,32 +64,50 @@ def calculator(
     help="Take multiple readings for the benchmark.")
 @click.option('--only_result', is_flag=True, help="Display the results only.")
 @click.option('--uploadresult', is_flag=True, help="Upload the results")
-def cli(n_runs, only_result, uploadresult):
+@click.pass_context
+def cli(ctx, n_runs, only_result, uploadresult):
     """A benchmark suite for Scrapy."""
-    global run, result, upload
-    run = n_runs
-    result = only_result
-    upload = uploadresult
+    ctx.obj = commandoption(n_runs, only_result, uploadresult)
 
 
 @cli.command()
-def bookworm():
+@click.pass_obj
+def bookworm(obj):
     """Spider to scrape locally hosted site"""
     workpath = os.path.join(os.getcwd(), "books")
     arg = "scrapy crawl followall -o items.csv"
-    calculator("Book Spider", arg, run, result, upload, workpath)
+    calculator(
+        "Book Spider",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.uploadresult,
+        workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
 
 @cli.command()
-def linkextractor():
+@click.pass_obj
+def linkextractor(obj):
     """Micro-benchmark for LinkExtractor()"""
     arg = "python link.py"
-    calculator("LinkExtractor", arg, run, result, upload)
+    calculator(
+        "LinkExtractor",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.uploadresult)
 
 
 @cli.command()
-def xpathbench():
+@click.pass_obj
+def xpathbench(obj):
     """Micro-benchmark for extraction using xpath"""
     arg = "python xpathbench.py"
-    calculator("Xpath Benchmark", arg, run, result, upload)
+    # print obj.n_runs
+    calculator(
+        "Xpath Benchmark",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.uploadresult)

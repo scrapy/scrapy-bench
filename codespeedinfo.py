@@ -1,5 +1,10 @@
-import urllib2
-import urllib
+try:
+    import urllib.request as urllib2
+    import urllib.parse as urllib
+except ImportError:
+    import urllib2
+    import urllib
+
 import platform
 import json
 from datetime import datetime
@@ -48,16 +53,13 @@ def uploadresult(test, w):
         #'max': 4001.6,  # Optional. Default is blank
         #'min': 3995.1,  # Optional. Default is blank
     })
-    params = urllib.urlencode(data)
+    params = urllib.urlencode(data).encode("utf-8")
     response = "None"
     print("Saving result for executable %s, revision %s, benchmark %s" % (
         data['executable'], data['commitid'], data['benchmark']))
-    try:
-        f = urllib2.urlopen(CODESPEED_URL + 'result/add/', params)
-    except urllib2.HTTPError as e:
-        print(str(e))
-        print(e.read())
-        return
+
+    f = urllib2.urlopen(CODESPEED_URL + 'result/add/', params)
     response = f.read()
     f.close()
+
     print("Server (%s) response: %s\n" % (CODESPEED_URL, response))
