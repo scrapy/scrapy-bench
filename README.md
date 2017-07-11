@@ -59,7 +59,7 @@
           systemctl status nginx
 
   
-My Nginx config file is shared [here](https://github.com/Parth-Vader/Scrapy-BenchCLI/blob/master/nginx.conf).
+My Nginx config file is shared [here](https://github.com/scrapy/scrapy-bench/blob/master/nginx.conf).
  Source : [How to install nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04).
 
 There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
@@ -70,7 +70,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 * Do the following to complete the installation:
     
-      git clone https://github.com/Parth-Vader/Scrapy-BenchCLI.git  
+      git clone https://github.com/scrapy/scrapy-bench.git  
       cd scrapy-bench/  
       virtualenv env  
       . env/bin/activate   
