@@ -113,3 +113,6 @@ def xpathbench(obj):
         obj.n_runs,
         obj.only_result,
         obj.upload_result)
+
+if __name__ == '__main__':
+    cli()
