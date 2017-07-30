@@ -90,7 +90,8 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 	Commands:
 	  bookworm       Spider to scrape locally hosted site
-	  linkextractor  Micro-benchmark for LinkExtractor()
 	  cssbench     Micro-benchmark for extraction using css
+	  linkextractor  Micro-benchmark for LinkExtractor()
+	  
 
 
