@@ -104,11 +104,11 @@ def linkextractor(obj):
 
 @cli.command()
 @click.pass_obj
-def xpathbench(obj):
-    """Micro-benchmark for extraction using xpath"""
-    arg = "python xpathbench.py"
+def cssbench(obj):
+    """Micro-benchmark for extraction using css"""
+    arg = "python cssbench.py"
     calculator(
-        "Xpath Benchmark",
+        "css Benchmark",
         arg,
         obj.n_runs,
         obj.only_result,
