@@ -17,6 +17,7 @@
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
 * A micro benchmark that tests extraction using css from a collection of html pages.
+* A micro benchmark that tests extraction using xpath from a collection of html pages
 
 ## Installation
 
@@ -85,12 +86,12 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	Options:
 	  --n-runs INTEGER  Take multiple readings for the benchmark.
 	  --only_result     Display the results only.
-	  --upload_result    Upload the results to local codespeed
+	  --upload_result   Upload the results to local codespeed
 	  --help            Show this message and exit.
 
 	Commands:
 	  bookworm       Spider to scrape locally hosted site
+	  cssbench       Micro-benchmark for extraction using css
 	  linkextractor  Micro-benchmark for LinkExtractor()
-	  cssbench     Micro-benchmark for extraction using css
-
+	  xpathbench     Micro-benchmark for extraction using xpath  
 

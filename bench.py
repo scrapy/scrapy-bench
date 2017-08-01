@@ -114,5 +114,19 @@ def cssbench(obj):
         obj.only_result,
         obj.upload_result)
 
+
+@cli.command()
+@click.pass_obj
+def xpathbench(obj):
+    """Micro-benchmark for extraction using xpath"""
+    arg = "python xpathbench.py"
+    calculator(
+        "xpath Benchmark",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result)
+
+
 if __name__ == '__main__':
     cli()
