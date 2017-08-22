@@ -62,20 +62,21 @@
 
           systemctl status nginx
 
-*For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
+* For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
-  127.0.0.1    domain1
-  127.0.0.1    domain2
-  127.0.0.1    domain3
-  127.0.0.1    domain4
-  127.0.0.1    domain5
-  127.0.0.1    domain6
-  127.0.0.1    domain7
-  127.0.0.1    domain8
-  ....................
-  127.0.0.1    domain1000
+	  
+	  127.0.0.1    domain1
+	  127.0.0.1    domain2
+	  127.0.0.1    domain3
+	  127.0.0.1    domain4
+	  127.0.0.1    domain5
+	  127.0.0.1    domain6
+	  127.0.0.1    domain7
+	  127.0.0.1    domain8
+	  ....................
+	  127.0.0.1    domain1000
 
-This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
+* This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
 
   
 My Nginx config file is shared [here](https://github.com/scrapy/scrapy-bench/blob/master/nginx.conf).
