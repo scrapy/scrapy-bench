@@ -12,12 +12,15 @@
 ### Current Features 
 * Spawns a CPU-intensive spider which follows a fixed number of links of a static snapshot of the site [Books to Scrape](http://books.toscrape.com/index.html).
 * Follows a real-world scenario where various information of the books is extracted, and stored in a `.csv` file.
-* `--n-runs` option for perfoming more than one iteration of spider to improve the precision.
-* `--only_result` option for viewing the results only.
-* `--upload_result` option to upload the results to local codespeed for better comparison.
+* A broad crawl benchmark that uses 1000 copies of the site [Books to Scrape](http://books.toscrape.com/index.html) which are dynamically generated using `twisted`. The server file is present [here](https://github.com/scrapy/scrapy-bench/blob/broad/server.py).
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
 * A micro benchmark that tests extraction using css from a collection of html pages.
 * A micro benchmark that tests extraction using xpath from a collection of html pages
+
+### Options
+* `--n-runs` option for perfoming more than one iteration of spider to improve the precision.
+* `--only_result` option for viewing the results only.
+* `--upload_result` option to upload the results to local codespeed for better comparison.
 
 ## Installation
 
@@ -59,6 +62,21 @@
 
           systemctl status nginx
 
+*For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
+* Add the following entries to `/etc/hosts` file :
+  127.0.0.1    domain1
+  127.0.0.1    domain2
+  127.0.0.1    domain3
+  127.0.0.1    domain4
+  127.0.0.1    domain5
+  127.0.0.1    domain6
+  127.0.0.1    domain7
+  127.0.0.1    domain8
+  ....................
+  127.0.0.1    domain1000
+
+This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
+
   
 My Nginx config file is shared [here](https://github.com/scrapy/scrapy-bench/blob/master/nginx.conf).
  Source : [How to install nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04).
@@ -91,8 +109,9 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 	Commands:
 	  bookworm       Spider to scrape locally hosted site
+	  broadworm      Broad crawl spider to scrape locally hosted...
 	  cssbench       Micro-benchmark for extraction using css
 	  linkextractor  Micro-benchmark for LinkExtractor()
-	  xpathbench     Micro-benchmark for extraction using xpath  
+	  xpathbench     Micro-benchmark for extraction using xpath
 
 
