@@ -91,6 +91,22 @@ def bookworm(obj):
 
 @cli.command()
 @click.pass_obj
+def broadworm(obj):
+    """Broad crawl spider to scrape locally hosted sites"""
+    workpath = os.path.join(os.getcwd(), "broad")
+    arg = "scrapy crawl broad -o items.csv"
+    calculator(
+        "Broad Crawl",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        workpath)
+    os.remove(os.path.join(workpath, "items.csv"))
+
+
+@cli.command()
+@click.pass_obj
 def linkextractor(obj):
     """Micro-benchmark for LinkExtractor()"""
     arg = "python link.py"

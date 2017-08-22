@@ -22,17 +22,11 @@ class BroadSpider(scrapy.Spider):
         'five': 5,
     }
 
-    #list_url = #['http://domain1:8880/index.html','http://domain2:8880/index.html','http://domain3:8880/index.html','http://domain4:8880/index.html']        
-    #start_urls = list_url
-    
     with open('domains.txt') as f:
-    	start_urls = [url.strip() for url in f.readlines()]
-    
+        start_urls = [url.strip() for url in f.readlines()]
+
     def __init__(self, **kw):
         super(BroadSpider, self).__init__(**kw)
-        
-        list_url = ['http://domain1/books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html','http://domain2:8880/index.html','http://domain3:8880/index.html','http://domain4:8880/index.html']        
-        start_urls = list_url   
 
         self.link_extractor = LinkExtractor()
         self.cookies_seen = set()
@@ -91,4 +85,4 @@ class BroadSpider(scrapy.Spider):
                 self.cookies_seen.add(cookie)
                 cookies.append(cookie)
         if cookies:
-            page['newcookies'] = cookies    
+            page['newcookies'] = cookies
