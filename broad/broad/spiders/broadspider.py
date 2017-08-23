@@ -14,7 +14,7 @@ from broad.items import Page
 
 class BroadBenchSpider(scrapy.Spider):
     name = "broadspider"
-    
+
     port = 8880
     n_domains = 1000
 
@@ -26,7 +26,8 @@ class BroadBenchSpider(scrapy.Spider):
         'five': 5,
     }
 
-    start_urls = ['http://domain{}:{}/index.html'.format(i, port) for i in range(1, n_domains + 1)]
+    start_urls = [
+        'http://domain{}:{}/index.html'.format(i, port) for i in range(1, n_domains + 1)]
 
     def __init__(self, **kw):
         super(BroadBenchSpider, self).__init__(**kw)
@@ -63,11 +64,15 @@ class BroadBenchSpider(scrapy.Spider):
             url=response.url,
             size=str(len(response.body)),
             referer=response.request.headers.get('Referer'),
-            rating=response.css('p.star-rating::attr(class)').extract_first().split(' ')[-1],
+            rating=response.css(
+                'p.star-rating::attr(class)').extract_first().split(' ')[-1],
             title=response.css('.product_main h1::text').extract_first(),
-            price=response.css('.product_main p.price_color::text').re_first('£(.*)'),
-            stock=''.join(response.css('.product_main .instock.availability ::text').re('(\d+)')),
-            category=''.join(response.css('ul.breadcrumb li:nth-last-child(2) ::text').extract()).strip(),
+            price=response.css(
+                '.product_main p.price_color::text').re_first('£(.*)'),
+            stock=''.join(
+                response.css('.product_main .instock.availability ::text').re('(\d+)')),
+            category=''.join(
+                response.css('ul.breadcrumb li:nth-last-child(2) ::text').extract()).strip(),
         )
 
         self._set_new_cookies(item, response)

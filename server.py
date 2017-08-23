@@ -2,6 +2,7 @@ from twisted.web.server import Site
 from twisted.web.resource import Resource
 from twisted.internet import reactor, endpoints
 
+
 class Home(Resource):
     isLeaf = True
 
@@ -9,10 +10,11 @@ class Home(Resource):
         path = "/var/www/html/books.toscrape.com/"
         filepath = '/'.join(request.postpath)
         fname = path + filepath
-        
-        with open(fname) as f: 
+
+        with open(fname) as f:
             s = f.read()
         return s
+
 
 resource = Home()
 factory = Site(resource)
