@@ -5,15 +5,13 @@ from twisted.internet import reactor, endpoints
 class Home(Resource):
     isLeaf = True
 
-    def __init__(self):
-        Resource.__init__(self)
-
     def render_GET(self, request):
         path = "/var/www/html/books.toscrape.com/"
         filepath = '/'.join(request.postpath)
         fname = path + filepath
-        f = open(fname)
-        s=f.read()
+        
+        with open(fname) as f: 
+            s=f.read()
         return s
 
 resource = Home()

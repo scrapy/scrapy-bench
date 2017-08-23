@@ -94,7 +94,7 @@ def bookworm(obj):
 def broadworm(obj):
     """Broad crawl spider to scrape locally hosted sites"""
     workpath = os.path.join(os.getcwd(), "broad")
-    arg = "scrapy crawl broad -o items.csv"
+    arg = "scrapy crawl broadspider -o items.csv"
     calculator(
         "Broad Crawl",
         arg,

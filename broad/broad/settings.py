@@ -1,4 +1,4 @@
-BOT_NAME = 'broad'
+BOT_NAME = 'broadspider'
 
 SPIDER_MODULES = ['broad.spiders']
 NEWSPIDER_MODULE = 'broad.spiders'
@@ -12,6 +12,8 @@ LOG_LEVEL = 'INFO'
 MEMDEBUG_ENABLED = True
 CONCURRENT_REQUESTS = 120
 
+AUTOTHROTTLE_ENABLED = True
+REACTOR_THREADPOOL_MAXSIZE = 20
 
 try:
     from local_settings import *

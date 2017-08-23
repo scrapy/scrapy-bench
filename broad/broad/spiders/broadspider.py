@@ -12,8 +12,12 @@ from scrapy.linkextractors import LinkExtractor
 from broad.items import Page
 
 
-class BroadSpider(scrapy.Spider):
-    name = "broad"
+class BroadBenchSpider(scrapy.Spider):
+    name = "broadspider"
+    
+    port = 8880
+    n_domains = 1000
+
     ratings_map = {
         'one': 1,
         'two': 2,
@@ -22,11 +26,10 @@ class BroadSpider(scrapy.Spider):
         'five': 5,
     }
 
-    with open('domains.txt') as f:
-        start_urls = [url.strip() for url in f.readlines()]
+    start_urls = ['http://domain{}:{}/index.html'.format(i, port) for i in range(1, n_domains + 1)]
 
     def __init__(self, **kw):
-        super(BroadSpider, self).__init__(**kw)
+        super(BroadBenchSpider, self).__init__(**kw)
 
         self.link_extractor = LinkExtractor()
         self.cookies_seen = set()
