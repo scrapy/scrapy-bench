@@ -11,7 +11,7 @@ class Home(Resource):
         fname = path + filepath
         
         with open(fname) as f: 
-            s=f.read()
+            s = f.read()
         return s
 
 resource = Home()
