@@ -5,6 +5,9 @@ from twisted.web.server import Site, NOT_DONE_YET
 from twisted.web.resource import Resource
 from twisted.internet import reactor, endpoints
 
+from six.moves.urllib.parse import urlsplit
+
+
 class Home(Resource):
     isLeaf = True
 
@@ -24,18 +27,14 @@ class Home(Resource):
 
     def render_GET(self, request):
 
-        domain_name = re.search(
-            'domain(.*):8880',
-            request.prePathURL()).group(1)
-
+        domain_name = urlsplit(request.prePathURL())
         random.seed(domain_name)
         mu = max(0.1, random.gauss(0.2, sigma=4))
         random.seed()
         delay = max(0, random.gauss(mu, sigma=mu / 2))
-
         call = reactor.callLater(delay, self._delayedRender, request)
         request.notifyFinish().addErrback(self._responseFailed, call)
-
+        print delay
         return NOT_DONE_YET
 
 
