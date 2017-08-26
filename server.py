@@ -1,11 +1,14 @@
 import random
 import re
+import sys
 
+if sys.version_info[0] < 3:
+	from six.moves.urllib.parse import urlsplit
+else:
+	import urllib.parse.urlsplit
 from twisted.web.server import Site, NOT_DONE_YET
 from twisted.web.resource import Resource
 from twisted.internet import reactor, endpoints
-
-from six.moves.urllib.parse import urlsplit
 
 
 class Home(Resource):
