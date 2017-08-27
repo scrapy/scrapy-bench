@@ -5,4 +5,4 @@
 !bookfiles.tar.gz
 !sites.tar.gz
 !tox.ini
-!books.toscrape.com
+!tox-entrypoint.sh
