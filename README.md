@@ -28,40 +28,19 @@
 
 * Firstly, download the static snapshot of the website [Books to Scrape](http://books.toscrape.com/index.html). That can be done by using `wget`.
 
-    `wget --mirror --convert-links --adjust-extension --page-requisites --no-parent http://books.toscrape.com/index.html`
+        wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
+            http://books.toscrape.com/index.html
 
-* Then place the whole file in the folder `var/www/html`.
-* `nginx` is required for deploying the website. Hence it is required to be installed and configured. If it is, you would be able to see the site [here](http://localhost/books.toscrape.com/index.html). 
+* Then place the whole file in the folder `var/www/html`:
+
+        sudo ln -s `pwd`/books.toscrape.com/ /var/www/html/
+
+* `nginx` is required for deploying the website. Hence it is required to be installed and configured. If it is, you would be able to see the site [here](http://localhost/books.toscrape.com/index.html).
 * If not, then follow the given steps :
         
         sudo apt-get update
         sudo apt-get install nginx
   
-  Before we can test Nginx, we need to reconfigure our firewall software to allow access to the service. Nginx registers itself as a service with `ufw`, our firewall, upon installation.
-  We can list the applications configurations that ufw knows how to work with by typing:
-
-        sudo ufw app list
-
-    You should get a listing of the application profiles:
-
-        Available applications:
-          Nginx Full
-          Nginx HTTP
-          Nginx HTTPS
-          OpenSSH
-   
-   Do the following to allow Nginx through the firewall : 
-          
-          sudo ufw allow 'Nginx HTTP'
-   
-   You can verify the change by typing:
-
-          sudo ufw status
-   
-   We can check with the systemd init system to make sure the service is running by typing:
-
-          systemctl status nginx
-
 * For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
 	  
@@ -79,9 +58,6 @@
 * This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
 
   
-My Nginx config file is shared [here](https://github.com/scrapy/scrapy-bench/blob/master/nginx.conf).
- Source : [How to install nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04).
-
 There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
 
 There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using `download.py` from the website [Books to Scrape](http://books.toscrape.com/index.html).
