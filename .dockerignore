@@ -1,0 +1,8 @@
+*
+!*.py
+!books
+!broad
+!bookfiles.tar.gz
+!sites.tar.gz
+!tox.ini
+!books.toscrape.com
