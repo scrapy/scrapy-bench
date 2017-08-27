@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 import datetime
 
-from six.moves.urllib.parse import urlparse
 import click
 import scrapy
 from scrapy.http import Request, HtmlResponse
@@ -26,12 +24,12 @@ class BroadBenchSpider(scrapy.Spider):
         'five': 5,
     }
 
-    start_urls = [
-        'http://domain{}:{}/index.html'.format(i, port) for i in range(1, n_domains + 1)]
 
     def __init__(self, **kw):
         super(BroadBenchSpider, self).__init__(**kw)
 
+        self.start_urls = ['http://domain{}:{}/index.html'.format(i, self.port)
+                           for i in range(1, self.n_domains + 1)]
         self.link_extractor = LinkExtractor()
         self.cookies_seen = set()
         self.previtem = 0
