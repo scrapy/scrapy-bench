@@ -24,6 +24,14 @@ RUN python3.6 -m pip install tox --user
 ENV PATH /root/.local/bin:$PATH
 
 WORKDIR /scrapy-bench
-COPY . .
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
+
+# Initialize all tox environments
+COPY setup.py .
+COPY tox.ini .
+# make an emapty bench.py to just generate all environments
+RUN touch bench.py
+RUN tox
+
+COPY . .
