@@ -46,7 +46,7 @@ RUN touch bench.py && tox
 RUN ln -s `pwd`/books.toscrape.com /var/www/html/
 
 # Set up broadworm benchmark
-RUN python3.6 -m pip install six twisted
+RUN python3.6 -m pip install six twisted --user
 
 COPY . .
 
