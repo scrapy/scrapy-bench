@@ -1,14 +1,8 @@
-try:
-    import urllib.request as urllib2
-    import urllib.parse as urllib
-except ImportError:
-    import urllib2
-    import urllib
-
 import platform
-import json
+import re
 from datetime import datetime
 
+import requests
 import scrapy
 import statistics
 
@@ -17,28 +11,24 @@ CODESPEED_URL = 'http://localhost:8000/'
 
 
 def get_latest_commit(owner, repo):
-    url = 'https://api.github.com/repos/{owner}/{repo}/commits?per_page=1'.format(
-        owner=owner, repo=repo)
-    response = urllib2.urlopen(url).read()
-    data = json.loads(response.decode())
-    return data[0]
+    url = ('https://api.github.com/repos/{owner}/{repo}/commits?per_page=1'
+           .format(owner=owner, repo=repo))
+    return requests.get(url).json()[0]
 
 
 def get_env():
     pyimplement = platform.python_implementation()
     pyversion = platform.python_version()
     scrapyversion = '.'.join(map(str, scrapy.version_info))
-
-    return pyimplement + " " + pyversion + " Scrapy " + scrapyversion
+    return '{} {} Scrapy {}'.format(pyimplement, pyversion, scrapyversion)
 
 
 def uploadresult(test, w):
     commit = get_latest_commit('scrapy', 'scrapy')
-
     data = {
         'commitid': commit['html_url'].rsplit('/', 1)[-1],
         'branch': 'default',  # Always use default for trunk/master/tip
-        'project': 'Scrapy-Bench',
+        'project': 'scrapy',
         'executable': 'bench.py',
         'benchmark': test,
         'environment': get_env(),
@@ -53,13 +43,11 @@ def uploadresult(test, w):
         #'max': 4001.6,  # Optional. Default is blank
         #'min': 3995.1,  # Optional. Default is blank
     })
-    params = urllib.urlencode(data).encode("utf-8")
-    response = "None"
-    print("Saving result for executable %s, revision %s, benchmark %s" % (
-        data['executable'], data['commitid'], data['benchmark']))
 
-    f = urllib2.urlopen(CODESPEED_URL + 'result/add/', params)
-    response = f.read()
-    f.close()
-
-    print("Server (%s) response: %s\n" % (CODESPEED_URL, response))
+    print('Saving result for executable {executable}, revision {commitid}, '
+          'benchmark {benchmark}'.format(**data))
+    response = requests.post(CODESPEED_URL + 'result/add/', data=data)
+    if not response.ok:
+        print('Error uploading results: {} {}'.format(response, response.text))
+    else:
+        print('Results uploaded: {} {}'.format(response, response.text))
