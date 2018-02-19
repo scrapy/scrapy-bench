@@ -12,7 +12,7 @@
 ### Current Features
 * Spawns a CPU-intensive spider which follows a fixed number of links of a static snapshot of the site [Books to Scrape](http://books.toscrape.com/index.html).
 * Follows a real-world scenario where various information of the books is extracted, and stored in a `.csv` file.
-* A broad crawl benchmark that uses 1000 copies of the site [Books to Scrape](http://books.toscrape.com/index.html) which are dynamically generated using `twisted`. The server file is present [here](https://github.com/scrapy/scrapy-bench/server.py).
+* A broad crawl benchmark that uses 1000 copies of the site [Books to Scrape](http://books.toscrape.com/index.html) which are dynamically generated using `twisted`. The server file is present [here](https://github.com/scrapy/scrapy-bench/blob/master/server.py).
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
 * A micro benchmark that tests extraction using css from a collection of html pages.
 * A micro benchmark that tests extraction using xpath from a collection of html pages
