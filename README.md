@@ -5,14 +5,14 @@
 
 ## Why?
 
-* Currently, the `scrapy bench` option present just spawns a spider which aggresively crawls randomly generated links at a high speed. 
+* Currently, the `scrapy bench` option present just spawns a spider which aggresively crawls randomly generated links at a high speed.
 * The speed thus obtained, which maybe useful for comparisons, does not actually reflects a real-world scenario.
 * The actual speed varies with the python version and scrapy version.
 
-### Current Features 
+### Current Features
 * Spawns a CPU-intensive spider which follows a fixed number of links of a static snapshot of the site [Books to Scrape](http://books.toscrape.com/index.html).
 * Follows a real-world scenario where various information of the books is extracted, and stored in a `.csv` file.
-* A broad crawl benchmark that uses 1000 copies of the site [Books to Scrape](http://books.toscrape.com/index.html) which are dynamically generated using `twisted`. The server file is present [here](https://github.com/scrapy/scrapy-bench/blob/broad/server.py).
+* A broad crawl benchmark that uses 1000 copies of the site [Books to Scrape](http://books.toscrape.com/index.html) which are dynamically generated using `twisted`. The server file is present [here](https://github.com/scrapy/scrapy-bench/blob/master/server.py).
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
 * A micro benchmark that tests extraction using css from a collection of html pages.
 * A micro benchmark that tests extraction using xpath from a collection of html pages
@@ -37,13 +37,13 @@
 
 * `nginx` is required for deploying the website. Hence it is required to be installed and configured. If it is, you would be able to see the site [here](http://localhost/books.toscrape.com/index.html).
 * If not, then follow the given steps :
-        
+
         sudo apt-get update
         sudo apt-get install nginx
-  
+
 * For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
-	  
+
 	  127.0.0.1    domain1
 	  127.0.0.1    domain2
 	  127.0.0.1    domain3
@@ -57,7 +57,7 @@
 
 * This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
 
-  
+
 There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
 
 There are 200 html files present in `bookfiles.tar.gz`, which were downloaded using `download.py` from the website [Books to Scrape](http://books.toscrape.com/index.html).
@@ -65,15 +65,15 @@ There are 200 html files present in `bookfiles.tar.gz`, which were downloaded us
 The spider `download.py`, dumps the response body as unicode to the files. The list of top sites was taken from [here](http://s3.amazonaws.com/alexa-static/top-1m.csv.zip).
 
 * Do the following to complete the installation:
-    
+
       git clone https://github.com/scrapy/scrapy-bench.git  
       cd scrapy-bench/  
       virtualenv env  
       . env/bin/activate   
       pip install --editable .
-          
+
 ## Usage
-  
+
 	Usage: scrapy-bench [OPTIONS] COMMAND [ARGS]...
 
 	  A benchmark suite for Scrapy.
@@ -90,5 +90,3 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  cssbench       Micro-benchmark for extraction using css
 	  linkextractor  Micro-benchmark for LinkExtractor()
 	  xpathbench     Micro-benchmark for extraction using xpath
-
-
