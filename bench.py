@@ -15,6 +15,13 @@ class commandoption(object):
         self.book_url = book_url
 
 
+def save_url(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+
+    with open("books/book_url.txt", 'w') as f:
+        f.write(value)
+
 def calculator(
         test,
         arg,
@@ -71,7 +78,8 @@ def calculator(
 @click.option(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
-    help="The url to your book.toscrape.com on local machine")
+    help="The url to your book.toscrape.com on local machine",
+    callback=save_url)
 @click.pass_context
 def cli(ctx, n_runs, only_result, upload_result, book_url):
     """A benchmark suite for Scrapy."""
