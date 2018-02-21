@@ -15,13 +15,6 @@ class commandoption(object):
         self.book_url = book_url
 
 
-def save_url(ctx, param, value):
-    if not value or ctx.resilient_parsing:
-        return
-
-    with open("books/book_url.txt", 'w') as f:
-        f.write(value)
-
 def calculator(
         test,
         arg,
@@ -78,8 +71,7 @@ def calculator(
 @click.option(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
-    help="The url to your book.toscrape.com on local machine",
-    callback=save_url)
+    help="The url to your book.toscrape.com on local machine")
 @click.pass_context
 def cli(ctx, n_runs, only_result, upload_result, book_url):
     """A benchmark suite for Scrapy."""
@@ -91,7 +83,7 @@ def cli(ctx, n_runs, only_result, upload_result, book_url):
 def bookworm(obj):
     """Spider to scrape locally hosted site"""
     workpath = os.path.join(os.getcwd(), "books")
-    arg = "scrapy crawl followall -o items.csv"
+    arg = "scrapy crawl followall -o items.csv -a book_url=%s" % obj.book_url
     calculator(
         "Book Spider",
         arg,
@@ -100,7 +92,6 @@ def bookworm(obj):
         obj.upload_result,
         workpath)
     os.remove(os.path.join(workpath, "items.csv"))
-    os.remove(os.path.join(workpath, "book_url.txt"))
 
 
 @cli.command()
