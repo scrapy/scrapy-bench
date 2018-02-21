@@ -100,6 +100,7 @@ def bookworm(obj):
         obj.upload_result,
         workpath)
     os.remove(os.path.join(workpath, "items.csv"))
+    os.remove(os.path.join(workpath, "book_url.txt"))
 
 
 @cli.command()

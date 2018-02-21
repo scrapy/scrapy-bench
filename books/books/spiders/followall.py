@@ -25,7 +25,10 @@ class FollowAllSpider(scrapy.Spider):
 
     def __init__(self, **kw):
         super(FollowAllSpider, self).__init__(**kw)
-        url = 'http://localhost/'
+        with open("book_url.txt", 'r') as f:
+            urls = f.readlines()
+        urls = [x.strip() for x in urls]
+        url = urls[0]
         if not url.startswith('http://') and not url.startswith('https://'):
             url = 'http://%s/' % url
         self.url = url
