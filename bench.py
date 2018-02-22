@@ -71,7 +71,7 @@ def calculator(
 @click.option(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
-    help="The url to your book.toscrape.com on local machine")
+    help="The url to book.toscrape.com on your local machine")
 @click.pass_context
 def cli(ctx, n_runs, only_result, upload_result, book_url):
     """A benchmark suite for Scrapy."""
