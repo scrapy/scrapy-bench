@@ -20,4 +20,4 @@ matrix:
 install:
     - pip install -U pip tox
 script:
-    - tox bookworm
+    - tox
