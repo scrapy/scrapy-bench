@@ -26,7 +26,7 @@ class FollowAllSpider(scrapy.Spider):
     def __init__(self, book_url=None, **kw):
         super(FollowAllSpider, self).__init__(**kw)
 
-        url = "%s" % book_url
+        url = book_url
         if not url.startswith('http://') and not url.startswith('https://'):
             url = 'http://%s/' % url
         self.url = url
