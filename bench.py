@@ -8,10 +8,11 @@ import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, upload_result):
+    def __init__(self, n_runs, only_result, upload_result, book_url):
         self.n_runs = n_runs
         self.only_result = only_result
         self.upload_result = upload_result
+        self.book_url = book_url
 
 
 def calculator(
@@ -67,10 +68,14 @@ def calculator(
     '--upload_result',
     is_flag=True,
     help="Upload the results to local codespeed")
+@click.option(
+    '--book_url',
+    default="http://localhost/books.toscrape.com/",
+    help="The url to your book.toscrape.com on local machine")
 @click.pass_context
-def cli(ctx, n_runs, only_result, upload_result):
+def cli(ctx, n_runs, only_result, upload_result, book_url):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, upload_result)
+    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url)
 
 
 @cli.command()
@@ -78,7 +83,7 @@ def cli(ctx, n_runs, only_result, upload_result):
 def bookworm(obj):
     """Spider to scrape locally hosted site"""
     workpath = os.path.join(os.getcwd(), "books")
-    arg = "scrapy crawl followall -o items.csv"
+    arg = "scrapy crawl followall -o items.csv -a book_url=%s" % obj.book_url
     calculator(
         "Book Spider",
         arg,
