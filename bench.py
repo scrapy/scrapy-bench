@@ -58,7 +58,7 @@ def calculator(
     os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 
-@click.group()
+@click.group(chain=True)
 @click.option(
     '--n-runs',
     default=1,

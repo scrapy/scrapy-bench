@@ -16,6 +16,4 @@ matrix:
 install:
     - pip install -U pip tox
 script:
-    - tox cssbench
-    - tox linkextractor
-    - tox xpathbench
+    - tox
