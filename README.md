@@ -82,6 +82,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  --n-runs INTEGER  Take multiple readings for the benchmark.
 	  --only_result     Display the results only.
 	  --upload_result   Upload the results to local codespeed
+      --book_url TEXT   The url to book.toscrape.com on your local machine
 	  --help            Show this message and exit.
 
 	Commands:
