@@ -154,8 +154,8 @@ def xpathbench(obj):
 @click.pass_obj
 def itemloader(obj):
     """Item loader benchmarker"""
-    workpath = os.path.join(os.getcwd(), "itemloader")
-    arg = "scrapy crawl itemloaderspider"
+    workpath = os.path.join(os.getcwd())
+    arg = "python itemloader.py"
 
     calculator(
         "Item Loader benchmarker",
