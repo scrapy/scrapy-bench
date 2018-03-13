@@ -158,12 +158,15 @@ def vmprof(bench):
         'xpathbench': 'xpathbench.py'
     }
     workpath=os.getcwd()
-    arg = "python -m vmprof --web {}".format(mapping[bench])
+    try:
+        arg = "python -m vmprof --web {}".format(mapping[bench])
+        process = subprocess.Popen(arg, shell=True)
+        process.wait()
 
-    process = subprocess.Popen(arg, shell=True)
-    process.wait()
+        os.remove(os.path.join(workpath, "Benchmark.txt"))
+    except KeyError:
+        click.echo('The benchmarker you entered is invalid')
 
-    os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 if __name__ == '__main__':
     cli()
