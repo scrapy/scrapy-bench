@@ -148,6 +148,17 @@ def xpathbench(obj):
         obj.only_result,
         obj.upload_result)
 
+@cli.command()
+@click.option('--bench')
+def vmprof(bench):
+    """ Profiling benchmarkers with Vmprof"""
+    workpath=os.getcwd()
+    arg = "python -m vmprof --web cssbench.py"
+
+    process = subprocess.Popen(arg, shell=True)
+    process.wait()
+
+    os.remove(os.path.join(workpath, "Benchmark.txt"))
 
 if __name__ == '__main__':
     cli()
