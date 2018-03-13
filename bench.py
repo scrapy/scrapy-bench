@@ -149,11 +149,16 @@ def xpathbench(obj):
         obj.upload_result)
 
 @cli.command()
-@click.option('--bench')
+@click.option('--bench', default='cssbench')
 def vmprof(bench):
     """ Profiling benchmarkers with Vmprof"""
+    mapping = {
+        'cssbench': 'cssbench.py',
+        'linkextractor': 'link.py',
+        'xpathbench': 'xpathbench.py'
+    }
     workpath=os.getcwd()
-    arg = "python -m vmprof --web cssbench.py"
+    arg = "python -m vmprof --web {}".format(mapping[bench])
 
     process = subprocess.Popen(arg, shell=True)
     process.wait()
