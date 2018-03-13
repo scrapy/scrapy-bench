@@ -21,7 +21,8 @@ def calculator(
         n_runs,
         only_result,
         upload_result=False,
-        workpath=os.getcwd()):
+        workpath=os.getcwd(),
+        time_unit='sec'):
     w = []
     for x in range(n_runs):
         if only_result:
@@ -40,7 +41,7 @@ def calculator(
                 w.append(float(line))
 
     click.secho(
-        "\nThe results of the benchmark are (all speeds in items/sec) : \n",
+        "\nThe results of the benchmark are (all speeds in items/{0}) : \n".format(time_unit),
         bold=True)
     click.secho(
         "\nTest = '{0}' Iterations = '{1}'\n".format(test, n_runs),
@@ -162,7 +163,8 @@ def itemloader(obj):
         obj.n_runs,
         obj.only_result,
         obj.upload_result,
-        workpath)
+        workpath,
+        'min')
 
 if __name__ == '__main__':
     cli()
