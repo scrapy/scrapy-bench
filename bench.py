@@ -149,5 +149,20 @@ def xpathbench(obj):
         obj.upload_result)
 
 
+@cli.command()
+@click.pass_obj
+def itemloader(obj):
+    """Item loader benchmarker"""
+    workpath = os.path.join(os.getcwd(), "itemloader")
+    arg = "scrapy crawl itemloaderspider"
+
+    calculator(
+        "Item Loader benchmarker",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        workpath)
+
 if __name__ == '__main__':
     cli()
