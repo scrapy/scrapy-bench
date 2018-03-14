@@ -23,12 +23,12 @@ def main():
     time = 0
     tar = tarfile.open("bookfiles.tar.gz")
 
-    for i in xrange(0, 5000):
-        first_page = tar.getmembers()[0]
-        f = tar.extractfile(first_page)
-        html = f.read()
-        response = HtmlResponse(url="local", body=html, encoding='utf8')
+    first_page = tar.getmembers()[0]
+    f = tar.extractfile(first_page)
+    html = f.read()
+    response = HtmlResponse(url="local", body=html, encoding='utf8')
 
+    for i in xrange(0, 1000):
         start = timer()
         loader = ItemLoader(item=ItemloaderItem(), response=response)
         loader.add_xpath(
