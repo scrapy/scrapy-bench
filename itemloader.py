@@ -1,5 +1,5 @@
 from timeit import default_timer as timer
-import datetime
+import tarfile
 
 import scrapy
 import click
@@ -9,24 +9,44 @@ from scrapy.http import HtmlResponse
 
 
 class ItemloaderItem(scrapy.Item):
+    rating = scrapy.Field()
+    title = scrapy.Field()
+    price = scrapy.Field()
+    stock = scrapy.Field()
+    category = scrapy.Field()
     name = scrapy.Field()
     url = scrapy.Field()
 
 
 def main():
-    total = 30000
+    total = 0
     time = 0
-    response = HtmlResponse(url='http://example/com/')
+    tar = tarfile.open("bookfiles.tar.gz")
     products = []
-    for i in xrange(0, 30000):
+
+    for i in xrange(0, 1000):
+        first_page = tar.getmembers()[0]
+        f = tar.extractfile(first_page)
+        html = f.read()
+        response = HtmlResponse(url="local", body=html, encoding='utf8')
+
         start = timer()
         loader = ItemLoader(item=ItemloaderItem(), response=response)
+        loader.add_xpath(
+            'rating', '//*[@id="content_inner"]/article/div[1]/div[2]/p[3]/i[1]')
+        loader.add_xpath(
+            'title', '//*[@id=("content_inner")]/article/div[1]/div[2]/h1')
+        loader.add_xpath(
+            'price', '//*[@id=("content_inner")]/article/div[1]/div[2]/p[1]')
+        loader.add_css('stock', '.product_main .instock.availability ::text')
+        loader.add_css('category', 'ul.breadcrumb li:nth-last-child(2) ::text')
         loader.add_value('name', 'item {}'.format(i))
         loader.add_value('url', 'http://site.com/item{}'.format(i))
-
         product = loader.load_item()
         products.append(product)
         end = timer()
+
+        total += 1
         time = time + end - start
 
 
