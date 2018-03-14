@@ -33,10 +33,10 @@ def main():
     print("\nTotal number of items extracted = {0}".format(total))
     print("Time taken = {0}".format(time))
     click.secho("Rate of link extraction : {0} items/second\n".format(
-        float(60 * total / time)), bold=True)
+        float(total / time)), bold=True)
 
     with open("Benchmark.txt", 'w') as g:
-        g.write(" {0}".format((60 * float(total / time))))
+        g.write(" {0}".format((float(total / time))))
 
 
 if __name__ == "__main__":
