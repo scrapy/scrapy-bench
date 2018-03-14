@@ -22,9 +22,8 @@ def main():
     total = 0
     time = 0
     tar = tarfile.open("bookfiles.tar.gz")
-    products = []
 
-    for i in xrange(0, 1000):
+    for i in xrange(0, 5000):
         first_page = tar.getmembers()[0]
         f = tar.extractfile(first_page)
         html = f.read()
@@ -43,7 +42,6 @@ def main():
         loader.add_value('name', 'item {}'.format(i))
         loader.add_value('url', 'http://site.com/item{}'.format(i))
         product = loader.load_item()
-        products.append(product)
         end = timer()
 
         total += 1
