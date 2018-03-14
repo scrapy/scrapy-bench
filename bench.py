@@ -71,7 +71,7 @@ def calculator(
 @click.option(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
-    help="The url to book.toscrape.com on your local machine")
+    help="Use with **bookworm** command. The url to book.toscrape.com on your local machine")
 @click.pass_context
 def cli(ctx, n_runs, only_result, upload_result, book_url):
     """A benchmark suite for Scrapy."""
@@ -149,9 +149,11 @@ def xpathbench(obj):
         obj.upload_result)
 
 @cli.command()
-@click.option('--bench', default='cssbench')
+@click.option('--bench',
+    default='cssbench',
+    help="Use with vmprof command. The name of the benchmarker you want to profile with vmprof")
 def vmprof(bench):
-    """ Profiling benchmarkers with Vmprof"""
+    """Profiling benchmarkers with Vmprof. Default to profiling cssbench"""
     mapping = {
         'cssbench': 'cssbench.py',
         'linkextractor': 'link.py',
