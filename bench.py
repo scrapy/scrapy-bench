@@ -8,11 +8,12 @@ import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, upload_result, book_url):
+    def __init__(self, n_runs, only_result, upload_result, book_url, bench):
         self.n_runs = n_runs
         self.only_result = only_result
         self.upload_result = upload_result
         self.book_url = book_url
+        self.bench = bench
 
 
 def calculator(
@@ -72,10 +73,13 @@ def calculator(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
     help="Use with bookworm command. The url to book.toscrape.com on your local machine")
+@click.option('--bench',
+    default='cssbench',
+    help="Use with vmprof command. The name of the benchmarker you want to profile with vmprof")
 @click.pass_context
-def cli(ctx, n_runs, only_result, upload_result, book_url):
+def cli(ctx, n_runs, only_result, upload_result, book_url, bench):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url)
+    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, bench)
 
 
 @cli.command()
@@ -150,19 +154,21 @@ def xpathbench(obj):
 
 
 @cli.command()
-@click.option('--bench',
-    default='cssbench',
-    help="Use with vmprof command. The name of the benchmarker you want to profile with vmprof")
-def vmprof(bench):
+@click.pass_obj
+def vmprof(obj):
     """Profiling benchmarkers with Vmprof"""
+    if not obj.bench:
+        obj.bench = 'cssbench'
+
     mapping = {
         'cssbench': 'cssbench.py',
         'linkextractor': 'link.py',
         'xpathbench': 'xpathbench.py'
     }
-    workpath=os.getcwd()
+
+    workpath = os.getcwd()
     try:
-        arg = "python -m vmprof --web {}".format(mapping[bench])
+        arg = 'python -m vmprof --web {}'.format(mapping[obj.bench])
         process = subprocess.Popen(arg, shell=True)
         process.wait()
 
