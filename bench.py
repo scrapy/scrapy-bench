@@ -148,6 +148,7 @@ def xpathbench(obj):
         obj.only_result,
         obj.upload_result)
 
+
 @cli.command()
 @click.option('--bench',
     default='cssbench',
