@@ -62,7 +62,7 @@ def calculator(
         mapping = {
             'cssbench': 'cssbench.py',
             'linkextractor': 'link.py',
-            'xpathbench': 'xpathbench.py'
+            'xpathbench': 'xpathbench.py',
             'itemloader': 'itemloader.py'
         }
 
@@ -171,7 +171,7 @@ def cssbench(obj):
     benchmarker = ''
     if obj.vmprof:
         benchmarker = 'cssbench'
-        
+
     calculator(
         "css Benchmark",
         arg,
@@ -218,8 +218,7 @@ def itemloader(obj):
         obj.only_result,
         obj.upload_result,
         obj.vmprof,
-        benchmarker
-        workpath)
+        benchmarker)
 
 if __name__ == '__main__':
     cli()
