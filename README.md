@@ -84,7 +84,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  --only_result     Display the results only.
 	  --upload_result   Upload the results to local codespeed
       --book_url TEXT   Use with bookworm command. The url to book.toscrape.com on your local machine
-      --bench TEXT      Use with vmprof command. The name of the benchmarker you want to profile with vmprof
+      --vmprof          Profile the benchmarker with Vmprof
 	  --help            Show this message and exit.
 
 	Commands:
@@ -93,4 +93,3 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  cssbench       Micro-benchmark for extraction using css
 	  linkextractor  Micro-benchmark for LinkExtractor()
 	  xpathbench     Micro-benchmark for extraction using xpath
-      vmprof         Profiling benchmarkers with Vmprof. Default to profiling cssbench
