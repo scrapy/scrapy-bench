@@ -155,27 +155,18 @@ def xpathbench(obj):
 
 @cli.command()
 @click.pass_obj
-def vmprof(obj):
-    """Profiling benchmarkers with Vmprof"""
-    if not obj.bench:
-        obj.bench = 'cssbench'
+def itemloader(obj):
+    """Item loader benchmarker"""
+    workpath = os.path.join(os.getcwd())
+    arg = "python itemloader.py"
 
-    mapping = {
-        'cssbench': 'cssbench.py',
-        'linkextractor': 'link.py',
-        'xpathbench': 'xpathbench.py'
-    }
-
-    workpath = os.getcwd()
-    try:
-        arg = 'python -m vmprof --web {}'.format(mapping[obj.bench])
-        process = subprocess.Popen(arg, shell=True)
-        process.wait()
-
-        os.remove(os.path.join(workpath, "Benchmark.txt"))
-    except KeyError:
-        click.echo('The benchmarker you entered is invalid')
-
+    calculator(
+        "Item Loader benchmarker",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        workpath)
 
 if __name__ == '__main__':
     cli()
