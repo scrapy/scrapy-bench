@@ -93,7 +93,7 @@ def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof):
 @click.pass_obj
 def bookworm(obj):
     """Spider to scrape locally hosted site"""
-    scrapy_path = os.path.dirname(scrapy.__file__)
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "books")
     arg = "%s crawl followall -o items.csv -a book_url=%s" % (scrapy_path, obj.book_url)
 
@@ -112,7 +112,7 @@ def bookworm(obj):
 @click.pass_obj
 def broadworm(obj):
     """Broad crawl spider to scrape locally hosted sites"""
-    scrapy_path = os.path.dirname(scrapy.__file__)
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "broad")
     arg = "%s crawl broadspider -o items.csv" % scrapy_path
 
