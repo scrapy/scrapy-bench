@@ -5,7 +5,7 @@
 
 ## Why?
 
-* Currently, the `scrapy bench` option present just spawns a spider which aggresively crawls randomly generated links at a high speed.
+* Currently, the `scrapy bench` option present just spawns a spider which aggressively crawls randomly generated links at a high speed.
 * The speed thus obtained, which maybe useful for comparisons, does not actually reflects a real-world scenario.
 * The actual speed varies with the python version and scrapy version.
 
@@ -16,9 +16,10 @@
 * A micro benchmark that tests LinkExtractor() function by extracting links from a collection of html pages.
 * A micro benchmark that tests extraction using css from a collection of html pages.
 * A micro benchmark that tests extraction using xpath from a collection of html pages
+* Profile the benchmarkers with **vmprof** and upload to their website
 
 ### Options
-* `--n-runs` option for perfoming more than one iteration of spider to improve the precision.
+* `--n-runs` option for performing more than one iteration of spider to improve the precision.
 * `--only_result` option for viewing the results only.
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 
@@ -82,7 +83,8 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  --n-runs INTEGER  Take multiple readings for the benchmark.
 	  --only_result     Display the results only.
 	  --upload_result   Upload the results to local codespeed
-      --book_url TEXT   The url to book.toscrape.com on your local machine
+      --book_url TEXT   Use with bookworm command. The url to book.toscrape.com on your local machine
+      --vmprof          Profile the benchmarker with Vmprof
 	  --help            Show this message and exit.
 
 	Commands:

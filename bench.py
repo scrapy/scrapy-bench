@@ -3,16 +3,18 @@ import os
 
 import click
 import statistics
+import scrapy
 
 import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, upload_result, book_url):
+    def __init__(self, n_runs, only_result, upload_result, book_url, vmprof):
         self.n_runs = n_runs
         self.only_result = only_result
         self.upload_result = upload_result
         self.book_url = book_url
+        self.vmprof = vmprof
 
 
 def calculator(
@@ -21,20 +23,26 @@ def calculator(
         n_runs,
         only_result,
         upload_result=False,
+        vmprof=False,
         workpath=os.getcwd()):
     w = []
+    command = 'python {}'.format(arg)
+    if vmprof:
+        command = 'python -m vmprof --web {}'.format(arg)
+
     for x in range(n_runs):
         if only_result:
             process = subprocess.Popen(
-                arg,
+                command,
                 cwd=workpath,
                 shell=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)
             process.wait()
         else:
-            process = subprocess.Popen(arg, cwd=workpath, shell=True)
+            process = subprocess.Popen(command, cwd=workpath, shell=True)
             process.wait()
+
         with open(os.path.join(workpath, "Benchmark.txt")) as f:
             for line in f.readlines():
                 w.append(float(line))
@@ -71,25 +79,31 @@ def calculator(
 @click.option(
     '--book_url',
     default="http://localhost/books.toscrape.com/",
-    help="The url to book.toscrape.com on your local machine")
+    help="Use with bookworm command. The url to book.toscrape.com on your local machine")
+@click.option('--vmprof',
+    is_flag=True,
+    help="Profling benchmarkers with Vmprof and upload the result to the web")
 @click.pass_context
-def cli(ctx, n_runs, only_result, upload_result, book_url):
+def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url)
+    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, vmprof)
 
 
 @cli.command()
 @click.pass_obj
 def bookworm(obj):
     """Spider to scrape locally hosted site"""
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "books")
-    arg = "scrapy crawl followall -o items.csv -a book_url=%s" % obj.book_url
+    arg = "%s crawl followall -o items.csv -a book_url=%s" % (scrapy_path, obj.book_url)
+
     calculator(
         "Book Spider",
         arg,
         obj.n_runs,
         obj.only_result,
         obj.upload_result,
+        obj.vmprof,
         workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
@@ -98,14 +112,17 @@ def bookworm(obj):
 @click.pass_obj
 def broadworm(obj):
     """Broad crawl spider to scrape locally hosted sites"""
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "broad")
-    arg = "scrapy crawl broadspider -o items.csv"
+    arg = "%s crawl broadspider -o items.csv" % scrapy_path
+
     calculator(
         "Broad Crawl",
         arg,
         obj.n_runs,
         obj.only_result,
         obj.upload_result,
+        obj.vmprof,
         workpath)
     os.remove(os.path.join(workpath, "items.csv"))
 
@@ -114,47 +131,52 @@ def broadworm(obj):
 @click.pass_obj
 def linkextractor(obj):
     """Micro-benchmark for LinkExtractor()"""
-    arg = "python link.py"
+    arg = "link.py"
+
     calculator(
         "LinkExtractor",
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.upload_result)
+        obj.upload_result,
+        obj.vmprof)
 
 
 @cli.command()
 @click.pass_obj
 def cssbench(obj):
     """Micro-benchmark for extraction using css"""
-    arg = "python cssbench.py"
+    arg = "cssbench.py"
+
     calculator(
         "css Benchmark",
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.upload_result)
+        obj.upload_result,
+        obj.vmprof)
 
 
 @cli.command()
 @click.pass_obj
 def xpathbench(obj):
     """Micro-benchmark for extraction using xpath"""
-    arg = "python xpathbench.py"
+    arg = "xpathbench.py"
+
     calculator(
         "xpath Benchmark",
         arg,
         obj.n_runs,
         obj.only_result,
-        obj.upload_result)
+        obj.upload_result,
+        obj.vmprof)
 
 
 @cli.command()
 @click.pass_obj
 def itemloader(obj):
     """Item loader benchmarker"""
-    workpath = os.path.join(os.getcwd())
-    arg = "python itemloader.py"
+    arg = "itemloader.py"
 
     calculator(
         "Item Loader benchmarker",
@@ -162,7 +184,7 @@ def itemloader(obj):
         obj.n_runs,
         obj.only_result,
         obj.upload_result,
-        workpath)
+        obj.vmprof)
 
 if __name__ == '__main__':
     cli()

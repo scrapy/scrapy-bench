@@ -9,6 +9,7 @@ setup(
             'scrapy',
             'statistics',
             'six',
+            'vmprof',
         ],
         entry_points='''
 		[console_scripts]
