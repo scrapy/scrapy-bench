@@ -16,6 +16,10 @@ def urljoin_profile(base, ref):
 def main():
     total = 0
     time = 0
+    time_file_uri_to_path = 0
+    time_safe_url_string = 0
+    time_canonicalize_url = 0
+
     tar = tarfile.open("sites.tar.gz")
     urls = []
 
@@ -28,20 +32,33 @@ def main():
         urls.extend(links)
 
     for url in urls:
-        start = timer()
-
+        start_file_uri_to_path = timer()
         file_uri_to_path(url)
+        end_file_uri_to_path = timer()
+        time_file_uri_to_path += (end_file_uri_to_path - start_file_uri_to_path)
+        time += (end_file_uri_to_path - start_file_uri_to_path)
+
+        start_safe_url_string = timer()
         safe_url_string(url)
+        end_safe_url_string = timer()
+        time_safe_url_string += (end_safe_url_string - start_safe_url_string)
+        time += (end_safe_url_string - start_safe_url_string)
+
+        start_canonicalize_url = timer()
         canonicalize_url(url)
-        # any_to_uri(url) Error on Python 2: KeyError: u'\u9996'
+        end_canonicalize_url = timer()
+        time_canonicalize_url += (end_canonicalize_url - start_canonicalize_url)
+        time += (end_canonicalize_url - start_canonicalize_url)
 
-        end = timer()
+        # any_to_uri(url) # Error on Python 2: KeyError: u'\u9996'
+
         total += 1
-        time = time + end - start
-
 
     print("\nTotal number of items extracted = {0}".format(total))
-    print("Time taken = {0}".format(time))
+    print("Time spent on file_uri_to_path = {0}".format(time_file_uri_to_path))
+    print("Time spent on safe_url_string = {0}".format(time_safe_url_string))
+    print("Time spent on canonicalize_url = {0}".format(time_canonicalize_url))
+    print("Total time taken = {0}".format(time))
     click.secho("Rate of link extraction : {0} items/second\n".format(
         float(total / time)), bold=True)
 
