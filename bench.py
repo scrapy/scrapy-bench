@@ -186,5 +186,21 @@ def itemloader(obj):
         obj.upload_result,
         obj.vmprof)
 
+
+@cli.command()
+@click.pass_obj
+def urlparseprofile(obj):
+    """Urlparse benchmarker"""
+    arg = "urlparseprofile.py"
+
+    calculator(
+        "Urlparse benchmarker",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        obj.vmprof)
+
+
 if __name__ == '__main__':
     cli()
