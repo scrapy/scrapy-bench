@@ -9,10 +9,6 @@ from w3lib.url import (parse_data_uri, file_uri_to_path, safe_url_string,
 from scrapy.http import HtmlResponse
 
 
-def urljoin_profile(base, ref):
-    return urljoin(base, ref)
-
-
 def main():
     total = 0
     time = 0
