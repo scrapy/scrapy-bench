@@ -26,9 +26,6 @@ class BroadBenchSpider(scrapy.Spider):
         'five': 5,
     }
 
-    start_urls = [
-        'http://domain{}:{}/index.html'.format(i, port) for i in range(1, n_domains + 1)]
-
     def __init__(self, **kw):
         super(BroadBenchSpider, self).__init__(**kw)
 
@@ -37,6 +34,8 @@ class BroadBenchSpider(scrapy.Spider):
         self.previtem = 0
         self.items = 0
         self.timesec = datetime.datetime.utcnow()
+        self.start_urls = [
+            'http://domain{}:{}/index.html'.format(i, self.port) for i in range(1, self.n_domains + 1)]
 
     def parse(self, response):
         """Parse a PageItem and all requests to follow"""
