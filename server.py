@@ -12,7 +12,7 @@ class Home(Resource):
     def _delayedRender(self, request):
 
         path = "/var/www/html/books.toscrape.com/"
-        filepath = '/'.join([p.decode('utf-8') for p in request.postpath])
+        filepath = '/'.join(request.postpath)
         fname = path + filepath
 
         with open(fname) as f:
