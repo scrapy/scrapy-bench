@@ -48,7 +48,7 @@
 
 * Build serve part using docker
 
-        sudo docker build -t scrapy-bench-server .
+        docker build -t scrapy-bench-server -f docker/Dockerfile .
 
 * Run docker container
 
