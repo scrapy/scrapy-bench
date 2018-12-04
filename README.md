@@ -42,6 +42,8 @@
         sudo apt-get update
         sudo apt-get install nginx
 
+* For the broad crawl, use the `server.py` file to serve sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
+
 ### Setup server using docker
 
 * Build serve part using docker
@@ -56,7 +58,6 @@
 
 ### Client setup
 
-* For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
 
 	  127.0.0.1    domain1
