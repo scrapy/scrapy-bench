@@ -1,6 +1,4 @@
 import random
-import re
-import sys
 
 from six.moves.urllib.parse import urlsplit
 from twisted.web.server import Site, NOT_DONE_YET
