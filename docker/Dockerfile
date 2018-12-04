@@ -17,4 +17,6 @@ COPY docker/nginx.conf /serve/
 RUN python -m pip install twisted supervisor
 COPY docker/supervisord.conf /serve/
 COPY server.py /serve
+EXPOSE 8000
+EXPOSE 8880
 ENTRYPOINT ["supervisord", "-c", "/serve/supervisord.conf", "--nodaemon"]
