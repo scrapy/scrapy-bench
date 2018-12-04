@@ -102,3 +102,8 @@ ENV/
 
 # profiling result
 *.prof
+
+broad/Benchmark.txt
+broad/items.csv
+book/Benchmark.txt
+book/items.csv
