@@ -8,5 +8,5 @@ RUN bash -c 'rm -rf /data/ && \
          --no-parent http://books.toscrape.com/ && \
     popd'
 
-COPY nginx.conf /data/
+COPY docker/nginx.conf /data/
 CMD ["nginx", "-c", "/data/nginx.conf"]
