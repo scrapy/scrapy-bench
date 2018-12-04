@@ -1,5 +1,9 @@
 FROM nginx
-RUN apt-get update && apt-get install nginx wget -y
+RUN apt-get update && apt-get install nginx \
+                                      git \
+                                      wget \
+                                      python3-pip \
+                                      python3 -y
 RUN bash -c 'rm -rf /data/ && \
     mkdir /data/ && \
     pushd /data/ && \
@@ -9,4 +13,6 @@ RUN bash -c 'rm -rf /data/ && \
     popd'
 
 COPY docker/nginx.conf /data/
-CMD ["nginx", "-c", "/data/nginx.conf"]
+RUN python3 -m pip install git+https://github.com/Supervisor/supervisor.git@5112520
+COPY docker/supervisord.conf /data
+ENTRYPOINT ["supervisord", "-c", "/data/supervisord.conf", "--nodaemon"]
