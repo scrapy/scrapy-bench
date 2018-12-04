@@ -16,4 +16,5 @@ RUN bash -c 'rm -rf /var/www/html/ && \
 COPY docker/nginx.conf /serve/
 RUN python3 -m pip install twisted git+https://github.com/Supervisor/supervisor.git@5112520
 COPY docker/supervisord.conf /serve/
+COPY server.py /serve/
 ENTRYPOINT ["supervisord", "-c", "/serve/supervisord.conf", "--nodaemon"]
