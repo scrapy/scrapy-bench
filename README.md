@@ -52,13 +52,13 @@
 
 * Run docker container
 
-        sudo docker run --rm -ti scrapy-bench-server
+        docker run --rm -ti scrapy-bench-server
 
 * Find out container's network address
 
-        sudo docker ps | grep scrapy-bench
+        docker ps | grep scrapy-bench
         42261ed18c24        scrapy-bench-server                       "nginx -c /data/ng..."   31 seconds ago      Up 30 seconds       80/tcp                   nervous_hawking
-        sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 42261ed18c24
+        docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 42261ed18c24
         172.17.0.8
 
 * Use this address as a destination for a client
