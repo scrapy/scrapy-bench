@@ -23,9 +23,9 @@
 * `--only_result` option for viewing the results only.
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 
-## Installation
+## Setup
 
-### For Ubuntu
+### Setup server for Ubuntu
 
 * Firstly, download the static snapshot of the website [Books to Scrape](http://books.toscrape.com/index.html). That can be done by using `wget`.
 
@@ -42,21 +42,44 @@
         sudo apt-get update
         sudo apt-get install nginx
 
+* destination for a client is 127.0.0.1
+
+### Setup server using docker
+
+* Build serve part using docker
+
+        sudo docker build -t scrapy-bench-server .
+
+* Run docker container
+
+        sudo docker run --rm -ti scrapy-bench-server
+
+* Find out container's network address
+
+        sudo docker ps | grep scrapy-bench
+        42261ed18c24        scrapy-bench-server                       "nginx -c /data/ng..."   31 seconds ago      Up 30 seconds       80/tcp                   nervous_hawking
+        sudo docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 42261ed18c24
+        172.17.0.8
+
+* Use this address as a destination for a client
+
+### Client setup
+
 * For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
 
-	  127.0.0.1    domain1
-	  127.0.0.1    domain2
-	  127.0.0.1    domain3
-	  127.0.0.1    domain4
-	  127.0.0.1    domain5
-	  127.0.0.1    domain6
-	  127.0.0.1    domain7
-	  127.0.0.1    domain8
+	  <destination_ip>    domain1
+	  <destination_ip>    domain2
+	  <destination_ip>    domain3
+	  <destination_ip>    domain4
+	  <destination_ip>    domain5
+	  <destination_ip>    domain6
+	  <destination_ip>    domain7
+	  <destination_ip>    domain8
 	  ....................
-	  127.0.0.1    domain1000
+	  <destination_ip>    domain1000
 
-* This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
+* This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://<destination_ip>:8880/index.html`.
 
 
 There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
@@ -67,10 +90,10 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 * Do the following to complete the installation:
 
-      git clone https://github.com/scrapy/scrapy-bench.git  
-      cd scrapy-bench/  
-      virtualenv env  
-      . env/bin/activate   
+      git clone https://github.com/scrapy/scrapy-bench.git
+      cd scrapy-bench/
+      virtualenv env
+      . env/bin/activate
       pip install --editable .
 
 ## Usage
