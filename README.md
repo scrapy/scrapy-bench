@@ -52,6 +52,8 @@
 
         docker run --rm -ti --network=host scrapy-bench-server
 
+* Now you have [nginx](http://localhost:8000/index.html) and [serve.py](http://localhost:8880/index.html) serving
+
 ### Client setup
 
 * For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
