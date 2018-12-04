@@ -42,8 +42,6 @@
         sudo apt-get update
         sudo apt-get install nginx
 
-* destination for a client is 127.0.0.1
-
 ### Setup server using docker
 
 * Build serve part using docker
@@ -52,32 +50,23 @@
 
 * Run docker container
 
-        docker run --rm -ti scrapy-bench-server
-
-* Find out container's network address
-
-        docker ps | grep scrapy-bench
-        42261ed18c24        scrapy-bench-server                       "nginx -c /data/ng..."   31 seconds ago      Up 30 seconds       80/tcp                   nervous_hawking
-        docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 42261ed18c24
-        172.17.0.8
-
-* Use this address as a destination for a client
+        docker run --rm -ti --network=host scrapy-bench-server
 
 ### Client setup
 
 * For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
 * Add the following entries to `/etc/hosts` file :
 
-	  <destination_ip>    domain1
-	  <destination_ip>    domain2
-	  <destination_ip>    domain3
-	  <destination_ip>    domain4
-	  <destination_ip>    domain5
-	  <destination_ip>    domain6
-	  <destination_ip>    domain7
-	  <destination_ip>    domain8
+	  127.0.0.1    domain1
+	  127.0.0.1    domain2
+	  127.0.0.1    domain3
+	  127.0.0.1    domain4
+	  127.0.0.1    domain5
+	  127.0.0.1    domain6
+	  127.0.0.1    domain7
+	  127.0.0.1    domain8
 	  ....................
-	  <destination_ip>    domain1000
+	  127.0.0.1    domain1000
 
 * This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://<destination_ip>:8880/index.html`.
 
