@@ -71,7 +71,7 @@
 	  ....................
 	  127.0.0.1    domain1000
 
-* This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://<destination_ip>:8880/index.html`.
+* This would point the sites `http://domain1:8880/index.html` to the original site generated at `http://localhost:8880/index.html`.
 
 
 There are 130 html files present in `sites.tar.gz`, which were downloaded using `download.py` from the top sites from `Alexa top sites` list.
