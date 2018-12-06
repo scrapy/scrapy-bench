@@ -1,6 +1,5 @@
+from __future__ import print_function
 import random
-import re
-import sys
 
 from six.moves.urllib.parse import urlsplit
 from twisted.web.server import Site, NOT_DONE_YET
@@ -34,7 +33,7 @@ class Home(Resource):
         delay = max(0, random.gauss(mu, sigma=mu / 2))
         call = reactor.callLater(delay, self._delayedRender, request)
         request.notifyFinish().addErrback(self._responseFailed, call)
-        print delay
+        print(delay)
         return NOT_DONE_YET
 
 

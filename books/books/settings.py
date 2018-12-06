@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 BOT_NAME = 'books'
 
 SPIDER_MODULES = ['books.spiders']
@@ -14,6 +16,6 @@ CONCURRENT_REQUESTS = 120
 
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

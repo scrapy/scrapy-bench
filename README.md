@@ -23,9 +23,9 @@
 * `--only_result` option for viewing the results only.
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 
-## Installation
+## Setup
 
-### For Ubuntu
+### Setup server for Ubuntu
 
 * Firstly, download the static snapshot of the website [Books to Scrape](http://books.toscrape.com/index.html). That can be done by using `wget`.
 
@@ -42,7 +42,22 @@
         sudo apt-get update
         sudo apt-get install nginx
 
-* For the broad crawl, use the `server.py` file to generate the various sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
+* For the broad crawl, use the `server.py` file to serve sites of local copy of [Books to Scrape](http://books.toscrape.com/index.html), which would already be in `/var/www/html`.
+
+### Setup server using docker
+
+* Build serve part using docker
+
+        docker build -t scrapy-bench-server -f docker/Dockerfile .
+
+* Run docker container
+
+        docker run --rm -ti --network=host scrapy-bench-server
+
+* Now you have [nginx](http://localhost:8000/index.html) and [serve.py](http://localhost:8880/index.html) serving
+
+### Client setup
+
 * Add the following entries to `/etc/hosts` file :
 
 	  127.0.0.1    domain1
@@ -67,10 +82,10 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 * Do the following to complete the installation:
 
-      git clone https://github.com/scrapy/scrapy-bench.git  
-      cd scrapy-bench/  
-      virtualenv env  
-      . env/bin/activate   
+      git clone https://github.com/scrapy/scrapy-bench.git
+      cd scrapy-bench/
+      virtualenv env
+      . env/bin/activate
       pip install --editable .
 
 ## Usage
