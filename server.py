@@ -1,3 +1,4 @@
+from __future__ import print_function
 import random
 
 from six.moves.urllib.parse import urlsplit
