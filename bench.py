@@ -9,12 +9,13 @@ import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, upload_result, book_url, vmprof):
+    def __init__(self, n_runs, only_result, upload_result, book_url, vmprof, set):
         self.n_runs = n_runs
         self.only_result = only_result
         self.upload_result = upload_result
         self.book_url = book_url
         self.vmprof = vmprof
+        self.set = set
 
 
 def calculator(
@@ -83,10 +84,17 @@ def calculator(
 @click.option('--vmprof',
     is_flag=True,
     help="Profling benchmarkers with Vmprof and upload the result to the web")
+@click.option(
+    '--set',
+    '-s',
+    multiple=True,
+    help="Settings to be passed to the Scrapy command. Use with the bookworm/broadworm commands.")
+
+
 @click.pass_context
-def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof):
+def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof, set):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, vmprof)
+    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, vmprof, set)
 
 
 @cli.command()
@@ -95,7 +103,8 @@ def bookworm(obj):
     """Spider to scrape locally hosted site"""
     scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "books")
-    arg = "%s crawl followall -o items.csv -a book_url=%s" % (scrapy_path, obj.book_url)
+    settings = " ".join("-s %s" % s for s in obj.set)
+    arg = "%s crawl followall -o items.csv -a book_url=%s %s" % (scrapy_path, obj.book_url, settings)
 
     calculator(
         "Book Spider",
@@ -114,7 +123,8 @@ def broadworm(obj):
     """Broad crawl spider to scrape locally hosted sites"""
     scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "broad")
-    arg = "%s crawl broadspider -o items.csv" % scrapy_path
+    settings = " ".join("-s %s" % s for s in obj.set)
+    arg = "%s crawl broadspider -o items.csv %s" % (scrapy_path, settings)
 
     calculator(
         "Broad Crawl",
