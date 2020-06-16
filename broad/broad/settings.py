@@ -17,6 +17,8 @@ CONCURRENT_REQUESTS = 120
 AUTOTHROTTLE_ENABLED = True
 REACTOR_THREADPOOL_MAXSIZE = 20
 
+SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
+
 try:
     from .local_settings import *
 except ImportError:
