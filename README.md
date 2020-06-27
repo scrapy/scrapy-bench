@@ -90,7 +90,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 
 ## Usage
 
-	Usage: scrapy-bench [OPTIONS] COMMAND [ARGS]...
+	Usage: scrapy-bench [OPTIONS] COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]...
 
 	  A benchmark suite for Scrapy.
 
@@ -98,13 +98,22 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  --n-runs INTEGER  Take multiple readings for the benchmark.
 	  --only_result     Display the results only.
 	  --upload_result   Upload the results to local codespeed
-      --book_url TEXT   Use with bookworm command. The url to book.toscrape.com on your local machine
-      --vmprof          Profile the benchmarker with Vmprof
+	  --book_url TEXT   Use with bookworm command. The url to book.toscrape.com on
+	                    your local machine
+
+	  --vmprof          Profling benchmarkers with Vmprof and upload the result to
+	                    the web
+
+	  -s, --set TEXT    Settings to be passed to the Scrapy command. Use with the
+	                    bookworm/broadworm commands.
+
 	  --help            Show this message and exit.
 
 	Commands:
-	  bookworm       Spider to scrape locally hosted site
-	  broadworm      Broad crawl spider to scrape locally hosted...
-	  cssbench       Micro-benchmark for extraction using css
-	  linkextractor  Micro-benchmark for LinkExtractor()
-	  xpathbench     Micro-benchmark for extraction using xpath
+	  bookworm         Spider to scrape locally hosted site
+	  broadworm        Broad crawl spider to scrape locally hosted sites
+	  cssbench         Micro-benchmark for extraction using css
+	  itemloader       Item loader benchmarker
+	  linkextractor    Micro-benchmark for LinkExtractor()
+	  urlparseprofile  Urlparse benchmarker
+	  xpathbench       Micro-benchmark for extraction using xpath
