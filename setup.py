@@ -10,6 +10,7 @@ setup(
             'statistics',
             'six',
             'vmprof',
+            'colorama<=0.4.1',
         ],
         entry_points='''
 		[console_scripts]
