@@ -19,6 +19,12 @@ REACTOR_THREADPOOL_MAXSIZE = 20
 
 SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 
+SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE = None
+
+DOWNLOADER_MIDDLEWARES = {
+    'broad.middlewares.RandomPayloadMiddleware': 500,
+}
+
 try:
     from .local_settings import *
 except ImportError:

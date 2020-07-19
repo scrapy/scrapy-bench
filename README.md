@@ -107,6 +107,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  -s, --set TEXT    Settings to be passed to the Scrapy command. Use with the
 	                    bookworm/broadworm commands.
 
+	  --random_payload_size INTEGER  Add a random payload with the given size.
 	  --help            Show this message and exit.
 
 	Commands:
