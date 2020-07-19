@@ -83,7 +83,7 @@ def calculator(
     help="Use with bookworm command. The url to book.toscrape.com on your local machine")
 @click.option('--vmprof',
     is_flag=True,
-    help="Profling benchmarkers with Vmprof and upload the result to the web")
+    help="Profiling benchmarkers with Vmprof and upload the result to the web")
 @click.option(
     '--set',
     '-s',
