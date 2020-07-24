@@ -9,8 +9,9 @@ class RandomPayloadMiddleware:
     def from_crawler(cls, crawler):
         return cls(crawler.settings.getint('SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE'))
 
-    def process_request(self, request, spider):
-        if not self.size or request.body != b'':
-            return
-
-        return request.replace(body=os.urandom(self.size))
+    def process_start_requests(self, start_requests, spider):
+        for request in start_requests:
+            if self.size and request.body == b'':
+                yield request.replace(body=os.urandom(self.size))
+            else:
+                yield request

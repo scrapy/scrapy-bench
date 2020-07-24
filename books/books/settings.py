@@ -16,8 +16,8 @@ CONCURRENT_REQUESTS = 120
 
 SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE = None
 
-DOWNLOADER_MIDDLEWARES = {
-    'books.middlewares.RandomPayloadMiddleware': 500,
+SPIDER_MIDDLEWARES = {
+    'books.middlewares.RandomPayloadMiddleware': 1000,
 }
 
 try:
