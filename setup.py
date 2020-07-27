@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
         name='Scrapy-Benchmark',
         version='1.0',
-        py_modules=['scrapy-bench'],
+        packages=['scrapy_bench'],
         install_requires=[
             'Click',
             'scrapy',

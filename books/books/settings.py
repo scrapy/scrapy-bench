@@ -17,7 +17,7 @@ CONCURRENT_REQUESTS = 120
 SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE = None
 
 SPIDER_MIDDLEWARES = {
-    'books.middlewares.RandomPayloadMiddleware': 1000,
+    'scrapy_bench.middlewares.RandomPayloadMiddleware': 1000,
 }
 
 try:

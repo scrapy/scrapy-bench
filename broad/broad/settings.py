@@ -22,7 +22,7 @@ SCHEDULER_PRIORITY_QUEUE = 'scrapy.pqueues.DownloaderAwarePriorityQueue'
 SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE = None
 
 SPIDER_MIDDLEWARES = {
-    'broad.middlewares.RandomPayloadMiddleware': 1000,
+    'scrapy_bench.middlewares.RandomPayloadMiddleware': 1000,
 }
 
 try:
