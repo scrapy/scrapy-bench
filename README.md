@@ -23,6 +23,9 @@
 * `--only_result` option for viewing the results only.
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 
+### Spider settings
+* `SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE`: Adds a random payload with the given size (in bytes).
+
 ## Setup
 
 ### Setup server for Ubuntu
@@ -107,7 +110,6 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  -s, --set TEXT    Settings to be passed to the Scrapy command. Use with the
 	                    bookworm/broadworm commands.
 
-	  --random_payload_size INTEGER  Add a random payload with the given size.
 	  --help            Show this message and exit.
 
 	Commands:

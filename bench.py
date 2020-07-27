@@ -9,14 +9,13 @@ import codespeedinfo
 
 
 class commandoption(object):
-    def __init__(self, n_runs, only_result, upload_result, book_url, vmprof, set, random_payload_size):
+    def __init__(self, n_runs, only_result, upload_result, book_url, vmprof, set):
         self.n_runs = n_runs
         self.only_result = only_result
         self.upload_result = upload_result
         self.book_url = book_url
         self.vmprof = vmprof
         self.set = set
-        self.random_payload_size = random_payload_size
 
 
 def calculator(
@@ -90,16 +89,12 @@ def calculator(
     '-s',
     multiple=True,
     help="Settings to be passed to the Scrapy command. Use with the bookworm/broadworm commands.")
-@click.option(
-    '--random_payload_size',
-    type=int,
-    help="Add a random payload with the given size.")
 
 
 @click.pass_context
-def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof, set, random_payload_size):
+def cli(ctx, n_runs, only_result, upload_result, book_url, vmprof, set):
     """A benchmark suite for Scrapy."""
-    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, vmprof, set, random_payload_size)
+    ctx.obj = commandoption(n_runs, only_result, upload_result, book_url, vmprof, set)
 
 
 @cli.command()
@@ -108,8 +103,6 @@ def bookworm(obj):
     """Spider to scrape locally hosted site"""
     scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "books")
-    if obj.random_payload_size:
-        obj.set += tuple(["SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE=%d" % obj.random_payload_size])
 
     settings = " ".join("-s %s" % s for s in obj.set)
     arg = "%s crawl followall -o items.csv -a book_url=%s %s" % (scrapy_path, obj.book_url, settings)
