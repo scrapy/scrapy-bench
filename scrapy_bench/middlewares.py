@@ -6,7 +6,8 @@ from scrapy import Request
 class RandomPayloadMiddleware:
     def __init__(self, size):
         """
-        Add a random payload to test network effects
+        To understand performance impact of large request size let's add a
+        random payload to it's meta
 
         :param name: size of payload added in bytes
         :type name: int
