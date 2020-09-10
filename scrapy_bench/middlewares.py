@@ -6,8 +6,10 @@ from scrapy import Request
 class RandomPayloadMiddleware:
     def __init__(self, size):
         """
-        To understand performance impact of large request size let's add a
-        random payload to it's meta
+        Middleware adds a random payload to request's meta. Such behaviour
+        simulates requests with large size and helps understand performance
+        impact during usage of external storages (disk, message queues etc.)
+        for requests.
 
         :param name: size of payload added in bytes
         :type name: int
