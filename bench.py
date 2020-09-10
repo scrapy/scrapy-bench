@@ -83,7 +83,7 @@ def calculator(
     help="Use with bookworm command. The url to book.toscrape.com on your local machine")
 @click.option('--vmprof',
     is_flag=True,
-    help="Profling benchmarkers with Vmprof and upload the result to the web")
+    help="Profiling benchmarkers with Vmprof and upload the result to the web")
 @click.option(
     '--set',
     '-s',
@@ -103,6 +103,7 @@ def bookworm(obj):
     """Spider to scrape locally hosted site"""
     scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
     workpath = os.path.join(os.getcwd(), "books")
+
     settings = " ".join("-s %s" % s for s in obj.set)
     arg = "%s crawl followall -o items.csv -a book_url=%s %s" % (scrapy_path, obj.book_url, settings)
 

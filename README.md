@@ -23,6 +23,9 @@
 * `--only_result` option for viewing the results only.
 * `--upload_result` option to upload the results to local codespeed for better comparison.
 
+### Spider settings
+* `SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE`: Adds a random payload with the given size (in bytes).
+
 ## Setup
 
 ### Setup server for Ubuntu

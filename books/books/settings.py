@@ -14,6 +14,11 @@ LOG_LEVEL = 'INFO'
 MEMDEBUG_ENABLED = True
 CONCURRENT_REQUESTS = 120
 
+SCRAPY_BENCH_RANDOM_PAYLOAD_SIZE = None
+
+SPIDER_MIDDLEWARES = {
+    'scrapy_bench.middlewares.RandomPayloadMiddleware': 1000,
+}
 
 try:
     from .local_settings import *
