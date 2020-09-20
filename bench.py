@@ -170,6 +170,24 @@ def cssbench(obj):
 
 @cli.command()
 @click.pass_obj
+def httpbench(obj):
+    """Scrapy HTTP download handler test"""
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
+    settings = " ".join("-s '%s'" % s for s in obj.set)
+    arg = "%s runspider httpbench.py %s" % (scrapy_path, settings)
+
+    calculator(
+        "HTTP Benchmark",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        obj.vmprof
+    )
+
+
+@cli.command()
+@click.pass_obj
 def xpathbench(obj):
     """Micro-benchmark for extraction using xpath"""
     arg = "xpathbench.py"
