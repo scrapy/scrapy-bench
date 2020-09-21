@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from scrapy import Request, Spider
+from six import text_type
 
 
 class HTTPSpider(Spider):
@@ -20,7 +21,12 @@ class HTTPSpider(Spider):
         for x in range(14):
             for y in range(11):
                 yield Request(
-                    f'https://http{version}.golang.org/gophertiles?x={x}&y={y}&latency=0'
+                    'https://http{version}.golang.org/gophertiles?x={x}&y={y}&latency=0'
+                    .format(
+                        version=version,
+                        x=x,
+                        y=y,
+                    )
                 )
 
     def parse(self, response):
@@ -29,4 +35,4 @@ class HTTPSpider(Spider):
     def close(self, reason):
         run_time = datetime.utcnow() - self.start_time
         with open("Benchmark.txt", 'w') as f:
-            f.write(f"{self.response_count / run_time.total_seconds()}")
+            f.write(text_type(self.response_count / run_time.total_seconds()))
