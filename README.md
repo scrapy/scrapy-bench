@@ -116,6 +116,7 @@ The spider `download.py`, dumps the response body as unicode to the files. The l
 	  bookworm         Spider to scrape locally hosted site
 	  broadworm        Broad crawl spider to scrape locally hosted sites
 	  cssbench         Micro-benchmark for extraction using css
+	  httpbench        Scrapy HTTP download handler test
 	  itemloader       Item loader benchmarker
 	  linkextractor    Micro-benchmark for LinkExtractor()
 	  urlparseprofile  Urlparse benchmarker
