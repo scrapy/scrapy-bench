@@ -139,6 +139,53 @@ def broadworm(obj):
 
 
 @cli.command()
+@click.argument('csv_file')
+@click.argument('column')
+@click.argument('protocol', default=None)
+@click.pass_obj
+def csv(obj, csv_file, column, protocol):
+    """Visit URLs from a CSV file
+
+    Loads the specified CSV file (1st argument) and yields a request for each
+    URL in the specified column (2nd argument).
+
+    If you specify a protocol (-p, --protocol), such as http or https, column
+    values are interpreted as domains, and the specified protocol is used to
+    build request URLs.
+
+    This benchmark can be used, for example, to visit a long list of popular
+    internet domain names to see how Scrapy handles them. There are several
+    webpages, such as https://www.domcop.com/top-10-million-domains, that allow
+    downloading a CSV file with such a list.
+
+    A global concurrency limit of 100 is used by default. However, if you CPU
+    supports higher concurrency, you may want to override the
+    CONCURRENT_REQUESTS setting to set a higher value.
+    """
+    scrapy_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'execute.py')
+    arguments = " ".join(
+        "-a '%s=%s'" % (key, value)
+        for key, value in (
+            ('csv_file', csv_file),
+            ('column', column),
+            ('protocol', protocol),
+        )
+        if value is not None
+    )
+    settings = " ".join("-s '%s'" % s for s in obj.set)
+    arg = "%s runspider csvspider.py %s %s" % (scrapy_path, arguments, settings)
+
+    calculator(
+        "CSV Benchmark",
+        arg,
+        obj.n_runs,
+        obj.only_result,
+        obj.upload_result,
+        obj.vmprof
+    )
+
+
+@cli.command()
 @click.pass_obj
 def linkextractor(obj):
     """Micro-benchmark for LinkExtractor()"""
