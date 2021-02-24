@@ -17,7 +17,6 @@ class CSVSpider(Spider):
         'CONCURRENT_REQUESTS': 100,  # https://docs.scrapy.org/en/latest/topics/broad-crawls.html#increase-concurrency
         'DUPEFILTER_DEBUG': True,
         'HTTPERROR_ALLOW_ALL': True,
-        'REDIRECT_ENABLED': False,
         'RETRY_TIMES': 0,
     }
 
