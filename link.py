@@ -12,7 +12,7 @@ from six.moves.urllib.parse import urlparse
 
 
 def main():
-    url = 'http://scrapinghub.com/'
+    url = 'https://scrapy.org/'
     link_extractor = LinkExtractor()
     total = 0
     time = 0
